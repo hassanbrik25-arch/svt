@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>علوم الحياة والأرض | ذ. محمد الحسوني</title>
+<meta name="description" content="فضاء مادة علوم الحياة والأرض: الدروس، الموارد، المواعيد، المنهجية والمعجم العلمي. Espace SVT : cours, ressources, échéances, méthodologie et lexique.">
+<script>
+/* ======================================================================
+   إعدادات الموقع  |  Réglages du site
+   كل ما تحتاج إلى تعديله موجود في هذه الكتلة فقط.
+   • نص باللغتين: { ar: "…", fr: "…" }  أو نص واحد "…" يظهر في اللغتين.
+   • المستويات: "tclsh" (ج.م آداب) ، "1bac" ، "2svt" ، "2pc" ، أو "all" للجميع.
+   • التواريخ بصيغة "YYYY-MM-DD" ، مثلا "2026-10-20".
+   • انتبه للفواصل , وعلامات التنصيص " بعد كل تعديل.
+   ====================================================================== */
+const SITE = {
+  // المستجدات والمواعيد واستعمال الزمن والسجل أسفله أمثلة للتوضيح.
+  // بعد تعويضها بمعطياتك الحقيقية اكتب:  demo: false
+  demo: true,
+
+  teacher: { ar: "ذ. محمد الحسوني", fr: "Pr. EL Hassouni Mohamed" },
+  role:    { ar: "أستاذ علوم الحياة والأرض بالتعليم الثانوي التأهيلي", fr: "Professeur de SVT au secondaire qualifiant" },
+  school:  { ar: "الثانوية التأهيلية عبد السلام عامر", fr: "Lycée qualifiant Abdesslam Ammer" },
+  city:    { ar: "سلا", fr: "Salé" },
+  year: "2026–2027",
+  updated: "2026-09-28",   // تاريخ آخر تحديث
+  email: "",               // بريد التواصل ، اتركه فارغا لإخفائه
+  labUrl: "",              // رابط المختبر الافتراضي على GitHub Pages
+
+  // الفصل الذي يدرسه كل مستوى الآن (المعرفات مذكورة في links أسفله)
+  current: { tclsh: "tc.eaux", "1bac": "1bac.paleo", "2svt": "2bac.energie", "2pc": "2bac.energie" },
+
+  // ---------- المستجدات | Annonces ----------
+  // url اختياري: رابط يظهر تحت الإعلان
+  announcements: [
+    { date: "2026-09-28", level: "all",
+      title: { ar: "مرحبا بكم في فضاء علوم الحياة والأرض", fr: "Bienvenue dans l'espace SVT" },
+      text:  { ar: "هنا تجدون دروس قسمكم ومواردها، ومواعيد الفروض، وسجل الحصص والواجبات.",
+               fr: "Retrouvez ici les cours de votre classe et leurs ressources, les dates des devoirs et le cahier de textes." } },
+    { date: "2026-09-26", level: "1bac",
+      title: { ar: "المختبر الافتراضي متاح", fr: "Le laboratoire virtuel est en ligne" },
+      text:  { ar: "أعيدوا تجارب الحصة من المنزل عبر صفحة «أدوات».",
+               fr: "Refaites les expériences de la séance depuis chez vous, rubrique « Outils »." } },
+    { date: "2026-09-24", level: "2pc",
+      title: { ar: "سلسلة تمارين من الامتحانات الوطنية", fr: "Série d'exercices d'examens nationaux" },
+      text:  { ar: "أربعة تمارين من امتحانات 2024 مع التصحيح، في صفحة «الموارد».",
+               fr: "Quatre exercices des examens 2024 avec corrigés, rubrique « Ressources »." } }
+  ],
+
+  // ---------- المواعيد | Échéances ----------
+  events: [
+    { date: "2026-10-20", level: "1bac",  title: { ar: "الفرض المحروس الأول", fr: "Devoir surveillé n° 1" } },
+    { date: "2026-10-22", level: "2pc",   title: { ar: "الفرض المحروس الأول", fr: "Devoir surveillé n° 1" } },
+    { date: "2026-10-23", level: "2svt",  title: { ar: "الفرض المحروس الأول", fr: "Devoir surveillé n° 1" } },
+    { date: "2026-10-28", level: "tclsh", title: { ar: "تقديم العروض: الماء في مدينتي", fr: "Exposés : l'eau dans ma ville" } }
+  ],
+
+  // ---------- استعمال الزمن | Emploi du temps ----------
+  // day: 1 الإثنين ، 2 الثلاثاء ، 3 الأربعاء ، 4 الخميس ، 5 الجمعة ، 6 السبت
+  // cls: رقم القسم ، room: رقم القاعة
+  timetable: [
+    { day: 1, start: "08:30", end: "10:30", level: "1bac",  cls: "1", room: "14" },
+    { day: 1, start: "10:30", end: "12:30", level: "2pc",   cls: "2", room: "14" },
+    { day: 2, start: "14:30", end: "16:30", level: "2svt",  cls: "1", room: "9"  },
+    { day: 3, start: "08:30", end: "10:30", level: "tclsh", cls: "3", room: "21" },
+    { day: 4, start: "10:30", end: "12:30", level: "1bac",  cls: "1", room: "14" },
+    { day: 5, start: "08:30", end: "10:30", level: "2pc",   cls: "2", room: "14" },
+    { day: 5, start: "14:30", end: "16:30", level: "2svt",  cls: "1", room: "9"  }
+  ],
+
+  // ---------- سجل الحصص والواجبات | Cahier de textes ----------
+  log: [
+    { date: "2026-09-25", level: "1bac",
+      done: { ar: "مدخل إلى الجغرافيا القديمة: مبدأ الحالية والسحنات", fr: "Introduction à la paléogéographie : actualisme et faciès" },
+      todo: { ar: "إتمام تمرين الوثيقة 3", fr: "Terminer l'exercice du document 3" } },
+    { date: "2026-09-24", level: "2pc",
+      done: { ar: "الانحلال السكري وحصيلته الطاقية", fr: "La glycolyse et son bilan énergétique" },
+      todo: { ar: "مراجعة بنية الميتوكوندري", fr: "Revoir l'ultrastructure de la mitochondrie" } },
+    { date: "2026-09-23", level: "tclsh",
+      done: { ar: "الإسراف في استغلال المياه", fr: "La surexploitation des eaux" },
+      todo: { ar: "تسجيل استهلاك الماء في المنزل لمدة أسبوع", fr: "Relever la consommation d'eau à la maison pendant une semaine" } }
+  ],
+
+  // ---------- موارد مستقلة | Ressources ----------
+  // type: "cours" درس ، "resume" ملخص ، "serie" سلسلة تمارين ، "devoir" فرض ، "doc" وثيقة ، "video" فيديو
+  // url: رابط Google Drive أو ملف PDF ، اتركه فارغا إن لم يكن جاهزا
+  resources: [
+    { level: "2pc", type: "serie",
+      title: { ar: "أربعة تمارين من الامتحانات الوطنية 2024 مع التصحيح", fr: "Quatre exercices des examens nationaux 2024, avec corrigés" }, url: "" },
+    { level: "1bac", type: "cours",
+      title: { ar: "عرض درس الجغرافيا القديمة", fr: "Diaporama : la paléogéographie" }, url: "" },
+    { level: "2svt", type: "doc",
+      title: { ar: "الإطار المرجعي للامتحان الوطني، مسلك علوم الحياة والأرض", fr: "Cadre de référence de l'examen national, filière SVT" },
+      url: "https://www.alloschool.com/element/48556" },
+    { level: "2pc", type: "doc",
+      title: { ar: "الإطار المرجعي للامتحان الوطني، مسلك العلوم الفيزيائية", fr: "Cadre de référence de l'examen national, filière PC" },
+      url: "https://www.alloschool.com/element/48555" }
+  ],
+
+  // ---------- روابط موارد كل فصل | Liens par chapitre ----------
+  // cours: الدرس ، resume: ملخص ، exercices: تمارين ، video: فيديو
+  // ما تضعه هنا يظهر تحت الفصل في «الدروس» وفي «الموارد» تلقائيا.
+  links: {
+    "tc.eaux":              { cours: "", resume: "", exercices: "", video: "" }, // استغلال المياه وتلويثها
+    "tc.reserves":          { cours: "", resume: "", exercices: "", video: "" }, // تكوين المدخرات المائية
+    "tc.potable":           { cours: "", resume: "", exercices: "", video: "" }, // الماء الشروب ودورة الماء
+    "tc.desequilibres":     { cours: "", resume: "", exercices: "", video: "" }, // بعض مظاهر اختلال التوازنات الطبيعية
+    "tc.preservation":      { cours: "", resume: "", exercices: "", video: "" }, // المحافظة على التوازنات الطبيعية
+    "tc.sante":             { cours: "", resume: "", exercices: "", video: "" }, // الصحة والبيئة
+
+    "1bac.paleo":           { cours: "", resume: "", exercices: "", video: "" }, // الخريطة الجغرافية القديمة
+    "1bac.histoire":        { cours: "", resume: "", exercices: "", video: "" }, // التاريخ الجيولوجي لمنطقة رسوبية
+    "1bac.absorption":      { cours: "", resume: "", exercices: "", video: "" }, // امتصاص الماء والأملاح المعدنية
+    "1bac.echanges":        { cours: "", resume: "", exercices: "", video: "" }, // التبادلات الغازية اليخضورية
+    "1bac.photo":           { cours: "", resume: "", exercices: "", video: "" }, // تحويل الطاقة الضوئية
+    "1bac.glycemie":        { cours: "", resume: "", exercices: "", video: "" }, // تنظيم نسبة السكر في الدم
+    "1bac.nerveuse":        { cours: "", resume: "", exercices: "", video: "" }, // الاتصال العصبي
+    "1bac.reproduction":    { cours: "", resume: "", exercices: "", video: "" }, // تنظيم وظيفة التوالد
+    "1bac.pression":        { cours: "", resume: "", exercices: "", video: "" }, // تنظيم الضغط الشرياني
+
+    // فصول مشتركة بين 2 باك ع.ح.أ و 2 باك ع.ف
+    "2bac.energie":         { cours: "", resume: "", exercices: "", video: "" }, // تحرير الطاقة الكامنة في المادة العضوية
+    "2bac.muscle":          { cours: "", resume: "", exercices: "", video: "" }, // دور العضلة الهيكلية المخططة
+    "2bac.info":            { cours: "", resume: "", exercices: "", video: "" }, // مفهوم الخبر الوراثي
+    "2bac.expression":      { cours: "", resume: "", exercices: "", video: "" }, // تعبير الخبر الوراثي
+    "2bac.meiose":          { cours: "", resume: "", exercices: "", video: "" }, // نقل الخبر الوراثي عبر التوالد الجنسي
+    "2bac.lois":            { cours: "", resume: "", exercices: "", video: "" }, // القوانين الإحصائية
+    "2bac.chaines":         { cours: "", resume: "", exercices: "", video: "" }, // السلاسل الجبلية الحديثة
+    "2bac.metamorphisme":   { cours: "", resume: "", exercices: "", video: "" }, // التحول
+    "2bac.granitisation":   { cours: "", resume: "", exercices: "", video: "" }, // الكرانيتية
+
+    // 2 باك علوم الحياة والأرض فقط
+    "2svt.genie":           { cours: "", resume: "", exercices: "", video: "" }, // الهندسة الوراثية
+    "2svt.humaine":         { cours: "", resume: "", exercices: "", video: "" }, // علم الوراثة البشرية
+    "2svt.populations":     { cours: "", resume: "", exercices: "", video: "" }, // علم وراثة الساكنة
+    "2svt.soi":             { cours: "", resume: "", exercices: "", video: "" }, // الذات واللاذات
+    "2svt.defense":         { cours: "", resume: "", exercices: "", video: "" }, // وسائل دفاع الجسم
+    "2svt.specifique":      { cours: "", resume: "", exercices: "", video: "" }, // آليات الاستجابة المناعية النوعية
+    "2svt.dysfonction":     { cours: "", resume: "", exercices: "", video: "" }, // اختلالات الجهاز المناعي
+    "2svt.aide":            { cours: "", resume: "", exercices: "", video: "" }, // مساعدة الجهاز المناعي
+
+    // 2 باك العلوم الفيزيائية فقط
+    "2pc.ordures":          { cours: "", resume: "", exercices: "", video: "" }, // الأزبال المنزلية
+    "2pc.pollution":        { cours: "", resume: "", exercices: "", video: "" }, // تلوث الأوساط الطبيعية
+    "2pc.nucleaire":        { cours: "", resume: "", exercices: "", video: "" }, // المواد المشعة والطاقة النووية
+    "2pc.qualite":          { cours: "", resume: "", exercices: "", video: "" }  // مراقبة جودة الأوساط الطبيعية
+  },
+
+  // ---------- ميثاق القسم | Charte de la classe ----------
+  charter: [
+    { ar: "الحضور في الوقت والدخول إلى القسم بهدوء.", fr: "Arriver à l'heure et entrer en classe calmement." },
+    { ar: "إحضار الدفتر وأدوات الرسم: قلم رصاص، ممحاة، مسطرة وأقلام ملونة.", fr: "Apporter son cahier et le matériel de dessin : crayon, gomme, règle et crayons de couleur." },
+    { ar: "رفع اليد قبل الكلام، والإنصات لرأي الآخرين.", fr: "Lever la main avant de parler et écouter l'avis des autres." },
+    { ar: "إنجاز الواجبات في وقتها. من غاب يسترجع ما فاته من «سجل الحصص».", fr: "Rendre le travail à temps. En cas d'absence, rattraper la séance grâce au cahier de textes." },
+    { ar: "الهاتف مطفأ داخل القسم، إلا إذا طلب الأستاذ استعماله.", fr: "Téléphone éteint en classe, sauf à la demande du professeur." },
+    { ar: "النزاهة التامة خلال الفروض المحروسة.", fr: "Honnêteté totale pendant les devoirs surveillés." },
+    { ar: "العناية بالقاعة وبالوسائل المشتركة.", fr: "Prendre soin de la salle et du matériel commun." }
+  ],
+
+  // ---------- التقويم | Évaluation ----------
+  evaluation: [
+    { ar: "فروض محروسة خلال كل دورة، تُعلن مواعيدها في هذا الموقع.", fr: "Des devoirs surveillés chaque semestre, annoncés sur ce site." },
+    { ar: "كل فرض يقيس مكونين: استرداد المعارف، والاستدلال العلمي انطلاقا من وثيقة أو ظاهرة ملاحظة.",
+      fr: "Chaque devoir évalue deux volets : la restitution des connaissances et le raisonnement scientifique à partir d'un document ou d'un phénomène observé." },
+    { ar: "الأنشطة: المشاركة، الدفتر، الواجبات المنزلية والعروض.", fr: "Activités : participation, cahier, travail à la maison et exposés." }
+  ],
+
+  // ---------- الامتحانات الوطنية | Examens nationaux ----------
+  // [السنة ، موضوع العادية ، تصحيح العادية ، موضوع الاستدراكية ، تصحيح الاستدراكية]
+  // الأرقام تحيل على صفحات AlloSchool ، ويمكن وضع رابط كامل مكان أي رقم.
+  exams: {
+    base: "https://www.alloschool.com/element/",
+    "2svt": [
+      [2025, 145636, 145881, 145882, 145883], [2024, 145877, 145878, 145879, 145880],
+      [2023, 142315, 142316, 142317, 142318], [2022, 138541, 138542, 138543, 138544],
+      [2021, 127309, 138538, 138539, 138540], [2020, 109869, 109871, 109872, 109873],
+      [2019, 94796, 94795, 94793, 94794],     [2018, 65627, 106217, 65628, 68269],
+      [2017, 65641, 65642, 65643, 65644],     [2016, 65653, 106216, 65654, 65655]
+    ],
+    "2pc": [
+      [2025, 145634, 145841, 145842, 145843], [2024, 145837, 145838, 145839, 145840],
+      [2023, 142310, 142311, 142313, 142314], [2022, 136762, 136760, 136767, 136765],
+      [2021, 127292, 136757, 136759, 136758], [2020, 109824, 109825, 109826, 109827],
+      [2019, 68265, 68266, 94721, 94722],     [2018, 65629, 65630, 65631, 65632],
+      [2017, 65637, 65638, 65639, 65640],     [2016, 65649, 65650, 65651, 65652]
+    ]
+  }
+};
+</script>
+<script>
+try {
+  var th = localStorage.getItem("svt-site:theme");
+  if (th === "dark" || th === "light") document.documentElement.setAttribute("data-theme", th);
+  if (localStorage.getItem("svt-site:lang") === "fr") { document.documentElement.lang = "fr"; document.documentElement.dir = "ltr"; }
+} catch (e) {}
+</script>
+<link id="fav" rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Changa:wght@300;400;500;600;700&family=Markazi+Text:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F3F5F2; --paper-2:#E6EBE7; --ink:#1C2A2A; --muted:#566866; --rule:#C8D2CF;
+  --action:#0F6577; --plate:#FFFFFF; --grass:#3F6B34; --soil:#6B4F3A;
+  --lv-tclsh:#62C1D3; --lv-1bac:#93CB60; --lv-2svt:#F4D55B; --lv-2pc:#F0B062; --socle:#E6A5B5;
+  --f-display:"Changa","Segoe UI",Tahoma,"Noto Sans Arabic","Geeza Pro",Arial,sans-serif;
+  --f-text:"Markazi Text","Noto Naskh Arabic",Amiri,"Traditional Arabic","Times New Roman",serif;
+  --radius:6px; --maxw:1120px;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#132022; --paper-2:#1B2B2D; --ink:#E3ECEA; --muted:#9DB0AD; --rule:#2F4244;
+    --action:#6CC6D8; --plate:#0F1B1D; --grass:#86B86F; --soil:#9A7A5E;
+    --lv-tclsh:#3E9FB2; --lv-1bac:#74AE43; --lv-2svt:#D7B83D; --lv-2pc:#D69545; --socle:#C98596;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#132022; --paper-2:#1B2B2D; --ink:#E3ECEA; --muted:#9DB0AD; --rule:#2F4244;
+  --action:#6CC6D8; --plate:#0F1B1D; --grass:#86B86F; --soil:#9A7A5E;
+  --lv-tclsh:#3E9FB2; --lv-1bac:#74AE43; --lv-2svt:#D7B83D; --lv-2pc:#D69545; --socle:#C98596;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--paper);color:var(--ink);font-family:var(--f-text);font-size:1.1875rem;line-height:1.7;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);line-height:1.2;margin:0;font-weight:600}
+p{margin:0}
+a{color:var(--action);text-underline-offset:.22em;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+button{font:inherit;color:inherit}
+svg{max-width:100%}
+:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:clamp(16px,4vw,32px)}
+.alt,.o{font-family:var(--f-display);color:var(--muted);font-size:.86rem;line-height:1.45}
+.alt{display:block;margin-top:2px}
+.o{display:block;margin-top:3px}
+
+/* ---------- header ---------- */
+.skip{position:absolute;inset-inline-start:12px;top:-80px;z-index:50;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:var(--radius);font-family:var(--f-display);text-decoration:none}
+.skip:focus{top:calc(env(safe-area-inset-top,0px) + 8px)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.top-in{display:flex;align-items:center;gap:8px;min-height:58px}
+.brand{display:flex;align-items:center;gap:10px;margin-inline-end:auto;color:inherit;text-decoration:none;min-width:0}
+.brand svg{width:34px;height:34px;flex:none;color:var(--ink)}
+.brand-t{display:flex;flex-direction:column;min-width:0}
+.brand-t b{font-family:var(--f-display);font-weight:600;font-size:1.02rem;line-height:1.15}
+.brand-t small{font-family:var(--f-display);font-size:.8rem;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbtn{flex:none;display:inline-grid;place-items:center;min-width:40px;height:38px;padding:0 10px;border:1px solid var(--rule);border-radius:var(--radius);background:transparent;color:var(--ink);font-family:var(--f-display);font-size:.95rem;cursor:pointer}
+.tbtn:hover{border-color:var(--ink)}
+.tbtn svg{width:18px;height:18px}
+.views{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-inline:-8px}
+.views::-webkit-scrollbar{display:none}
+.views a{flex:none;padding:7px 10px 9px;font-family:var(--f-display);font-size:1rem;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent}
+.views a:hover{color:var(--ink)}
+.views a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--ink)}
+
+.demo{background:var(--paper-2);border-bottom:1px solid var(--rule);font-family:var(--f-display);font-size:.88rem}
+.demo .wrap{display:flex;gap:12px;align-items:flex-start;padding-block:10px}
+.demo p{flex:1;line-height:1.55}
+.demo b{font-weight:600;unicode-bidi:isolate}
+
+main{display:block;outline:none;padding-bottom:16px}
+.page-h{padding-block:30px 20px}
+.page-h h1{font-size:clamp(1.9rem,6vw,2.6rem);font-weight:600}
+.page-h p{margin-top:6px;color:var(--muted);max-width:62ch}
+.sec{margin-block:30px 34px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:1.28rem;font-weight:600;padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+.lead{color:var(--muted);margin:10px 0 4px;max-width:62ch;line-height:1.6}
+.empty{padding:16px 0;color:var(--muted);font-family:var(--f-display);font-size:.95rem}
+.two{display:grid;gap:0 52px}
+@media (min-width:900px){.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+
+/* ---------- level tags & swatches ---------- */
+.tags{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px}
+.lv{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-display);font-size:.8rem;font-weight:400;color:var(--muted);line-height:1.25;white-space:nowrap}
+.sw{flex:none;display:inline-block;width:15px;height:15px;border:1px solid var(--ink);background-color:var(--fill,transparent);background-image:var(--pat,none);background-size:calc(var(--pw,12px)*.5) calc(var(--ph,12px)*.5)}
+
+/* ---------- home: lockup + hero ---------- */
+.lockup{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 18px;padding-block:18px 10px;border-bottom:1.5px solid var(--ink);font-family:var(--f-display);font-size:.86rem;color:var(--muted);line-height:1.45}
+.hero{display:grid;gap:34px;padding-block:28px 22px}
+@media (min-width:900px){.hero{grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:60px;align-items:center;padding-block:44px 34px}}
+.hero h1{font-size:clamp(2.7rem,10vw,4.9rem);font-weight:700;line-height:1.02}
+html[lang="fr"] .hero h1{font-size:clamp(2.2rem,7.4vw,3.8rem);line-height:1.05}
+.alt-title{margin-top:12px;font-family:var(--f-display);font-weight:300;font-size:clamp(1.15rem,3.6vw,1.6rem);color:var(--muted);line-height:1.3}
+.who{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);display:grid;gap:2px;max-width:34rem}
+.who b{font-family:var(--f-display);font-weight:600;font-size:1.22rem}
+.who span{color:var(--muted);line-height:1.5}
+
+/* ---------- the stratigraphic column ---------- */
+.log{--axis:5.6rem;display:block}
+.log .row{display:grid;grid-template-columns:var(--axis) minmax(0,1fr)}
+.log .age{align-self:center;padding-inline-end:12px;text-align:end;font-family:var(--f-display);font-size:.82rem;color:var(--muted);line-height:1.25}
+.log .beds{display:flex;min-height:86px;border-inline:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.soilband{line-height:0;color:var(--grass);border-bottom:3px solid var(--soil)}
+.grass{display:block;width:100%;height:18px}
+.bed{flex:1 1 0;min-width:0;display:flex;align-items:center;padding:12px;background-color:var(--fill);background-image:var(--pat);color:var(--ink);text-decoration:none}
+.bed + .bed{border-inline-start:2px dashed var(--ink)}
+.plate{display:inline-flex;flex-direction:column;gap:1px;max-width:100%;padding:7px 11px 8px;background:var(--plate);color:var(--ink);border:1px solid var(--ink);border-radius:4px;font-family:var(--f-display);line-height:1.25;transition:transform .16s ease}
+.plate b{font-weight:600;font-size:1rem}
+.plate small{font-size:.8rem;color:var(--muted)}
+.bed:hover .plate{transform:translateY(-2px)}
+.bed:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+.log .socle .beds{min-height:30px;background-color:var(--fill);background-image:var(--pat)}
+.log-cap{margin-top:12px;margin-inline-start:var(--axis);font-family:var(--f-display);font-size:.86rem;color:var(--muted);line-height:1.55;max-width:44ch}
+@media (max-width:420px){.log{--axis:4.6rem}.log .beds{min-height:92px}.bed{padding:10px 8px}.plate{padding:6px 8px 7px}.plate b{font-size:.93rem}}
+@media (prefers-reduced-motion:no-preference){
+  .log.settle .row{animation:deposit .7s cubic-bezier(.2,.75,.25,1) both;animation-delay:var(--d,0s)}
+}
+@keyframes deposit{from{opacity:0;transform:translateY(-22px)}to{opacity:1;transform:none}}
+
+/* ---------- home: lists ---------- */
+.home-grid{display:grid;gap:0 56px}
+@media (min-width:900px){.home-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}}
+.ann,.ev,.logs{list-style:none;margin:0;padding:0}
+.ann li,.logs li{display:grid;grid-template-columns:5.4rem minmax(0,1fr);gap:0 16px;padding-block:14px;border-bottom:1px solid var(--rule)}
+.ann time,.logs time{font-family:var(--f-display);font-size:.84rem;color:var(--muted);line-height:1.35;padding-top:3px}
+.ann h3{font-size:1.06rem;font-weight:600;line-height:1.4}
+.ann p{margin-top:4px;line-height:1.6}
+.ann .more{display:inline-block;margin-top:6px;font-family:var(--f-display);font-size:.9rem}
+.ev li{display:grid;grid-template-columns:3.4rem minmax(0,1fr) auto;gap:0 14px;align-items:center;padding-block:12px;border-bottom:1px solid var(--rule)}
+.ev .d{text-align:center;font-family:var(--f-display);line-height:1.05}
+.ev .d b{display:block;font-size:1.6rem;font-weight:600}
+.ev .d span{font-size:.76rem;color:var(--muted)}
+.ev h3{font-size:1rem;font-weight:600;line-height:1.4}
+.ev .tags{margin-top:3px}
+.cd{font-family:var(--f-display);font-size:.84rem;color:var(--action);white-space:nowrap}
+.cd.hot{color:var(--ink);font-weight:600}
+.lab p{margin:12px 0 14px;color:var(--muted);line-height:1.6;max-width:52ch}
+.fact-b{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding-top:14px}
+.fact-b svg{width:42px;height:42px;color:var(--muted)}
+.fact-b p{font-size:1.1rem;line-height:1.6}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--f-display);font-size:.95rem;font-weight:500;padding:9px 16px;border:1px solid var(--ink);border-radius:var(--radius);background:var(--ink);color:var(--paper);text-decoration:none;cursor:pointer;line-height:1.3}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.line{background:transparent;color:var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--paper)}
+.btn[aria-disabled="true"]{background:transparent;color:var(--muted);border-color:var(--rule);cursor:default}
+.btn svg{width:16px;height:16px;flex:none}
+.iconbtn{flex:none;width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--rule);border-radius:var(--radius);background:transparent;color:var(--muted);cursor:pointer}
+.iconbtn:hover:not(:disabled){color:var(--ink);border-color:var(--ink)}
+.iconbtn:disabled{opacity:.4;cursor:default}
+.iconbtn svg{width:18px;height:18px}
+.iconbtn.sm{width:32px;height:32px}
+
+/* ---------- chips, filters, search ---------- */
+.lvbar,.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.lvbar::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+.lvbar button,.chips button{flex:none;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--rule);border-radius:var(--radius);background:transparent;color:var(--muted);font-family:var(--f-display);font-size:.92rem;cursor:pointer;line-height:1.3}
+.lvbar button:hover,.chips button:hover{color:var(--ink);border-color:var(--muted)}
+.lvbar button[aria-pressed="true"],.chips button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.filters{display:grid;gap:10px}
+.field{display:flex;align-items:center;gap:8px;padding-inline:12px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--plate)}
+.field:focus-within{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.field svg{width:18px;height:18px;color:var(--muted);flex:none}
+.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font-family:var(--f-display);font-size:1rem;padding:11px 0;outline:none}
+.count{margin-top:16px;font-family:var(--f-display);font-size:.85rem;color:var(--muted)}
+
+/* ---------- cours ---------- */
+.lvhead{display:grid;gap:10px;margin-top:22px;padding-block:16px 18px;border-bottom:1.5px solid var(--ink)}
+.lvhead h2{font-size:clamp(1.35rem,4.6vw,1.85rem);font-weight:600;line-height:1.3}
+.prog{display:grid;gap:6px;max-width:520px;margin-top:4px}
+.prog-bar{height:10px;border:1px solid var(--ink);background:var(--paper-2)}
+.prog-bar i{display:block;height:100%;background-color:var(--fill);background-image:var(--pat);background-size:calc(var(--pw)*.6) calc(var(--ph)*.6)}
+.prog span{font-family:var(--f-display);font-size:.86rem;color:var(--muted)}
+.prog span b{color:var(--ink);font-weight:600}
+.unit{margin-top:30px}
+.unit-h{display:grid;gap:2px}
+.unit-h .k{font-family:var(--f-display);font-size:.82rem;color:var(--muted)}
+.unit-h h3{font-size:1.2rem;font-weight:600;line-height:1.4}
+.chaps{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--rule)}
+.chaps li{position:relative;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:0 12px;padding-block:14px;border-bottom:1px solid var(--rule)}
+.chaps .n{font-family:var(--f-display);font-size:1.15rem;font-weight:500;color:var(--muted);text-align:center;line-height:1.55}
+.chaps .t{display:block;font-weight:600;line-height:1.5}
+.chaps .res{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:8px;font-family:var(--f-display);font-size:.9rem}
+.chaps .soon{color:var(--muted);font-size:.84rem}
+.chaps li.now::before{content:"";position:absolute;inset-block:-1px;inset-inline-start:-14px;width:7px;background-color:var(--fill);background-image:var(--pat);border:1px solid var(--ink)}
+.chaps li.now .n{color:var(--ink);font-weight:600}
+.now-tag{display:inline-flex;align-items:center;gap:6px;margin-bottom:4px;font-family:var(--f-display);font-size:.82rem;font-weight:600;color:var(--ink)}
+.now-tag svg{width:20px;height:20px}
+
+/* ---------- ressources ---------- */
+.rlist{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--rule)}
+.rlist li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center;padding-block:12px;border-bottom:1px solid var(--rule)}
+.rlist .meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;font-family:var(--f-display);font-size:.8rem;color:var(--muted)}
+.rlist .t{display:block;font-weight:600;line-height:1.45;margin-top:2px}
+.go{font-family:var(--f-display);font-size:.95rem;white-space:nowrap}
+.na{font-family:var(--f-display);font-size:.82rem;color:var(--muted);white-space:nowrap}
+.tablewrap{overflow-x:auto;margin-top:12px}
+.exams{width:100%;border-collapse:collapse;font-family:var(--f-display);font-size:.93rem;min-width:300px}
+.exams th,.exams td{padding:9px 8px;text-align:start;border-bottom:1px solid var(--rule);white-space:nowrap}
+.exams thead th{font-weight:500;font-size:.82rem;color:var(--muted);border-bottom:1.5px solid var(--ink)}
+.exams tbody th{font-weight:600}
+.exams td a + a{margin-inline-start:14px}
+.note{margin-top:10px;font-family:var(--f-display);font-size:.8rem;color:var(--muted)}
+
+/* ---------- classe ---------- */
+.tt{border-top:0}
+.tt-day{display:grid;grid-template-columns:6.4rem minmax(0,1fr);gap:0 12px;padding-block:12px;border-bottom:1px solid var(--rule)}
+.tt-day .dn{font-family:var(--f-display);font-weight:500;color:var(--muted);line-height:1.4}
+.tt-day.today .dn{color:var(--ink);font-weight:600}
+.tt-day .dn small{display:block;font-size:.76rem;font-weight:500;color:var(--action)}
+.sess{display:grid;gap:8px}
+.ses{display:flex;flex-wrap:wrap;align-items:center;gap:2px 16px;font-family:var(--f-display);font-size:.95rem}
+.ses time{min-width:6.6rem;color:var(--muted);font-size:.9rem;unicode-bidi:isolate}
+.ses .lv{font-size:.9rem;color:var(--ink)}
+.ses .room{color:var(--muted);font-size:.86rem}
+.tt-day .none{color:var(--muted);font-family:var(--f-display);font-size:.88rem}
+.logs dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;margin:8px 0 0}
+.logs dt{font-family:var(--f-display);font-size:.8rem;color:var(--muted);padding-top:4px}
+.logs dd{margin:0;line-height:1.55}
+.rules{list-style:none;margin:6px 0 0;padding:0}
+.rules li{position:relative;padding-block:10px;padding-inline-start:24px;border-bottom:1px solid var(--rule);line-height:1.6}
+.rules li::before{content:"";position:absolute;inset-inline-start:3px;top:1.15em;width:8px;height:8px;border:1.5px solid var(--ink);transform:rotate(45deg)}
+
+/* ---------- méthodologie ---------- */
+.split{display:flex;margin-top:16px;border:1.5px solid var(--ink);font-family:var(--f-display)}
+.split > div{display:flex;align-items:baseline;gap:6px;padding:10px 12px}
+.split .p1{flex:5 1 0;background:var(--paper-2);border-inline-end:1.5px solid var(--ink)}
+.split .p2{flex:15 1 0}
+.split b{font-size:1.4rem;font-weight:600;line-height:1}
+.split span{font-size:.82rem;color:var(--muted)}
+.parts{display:grid;gap:14px;margin-top:14px}
+@media (min-width:720px){.parts{grid-template-columns:1fr 3fr;gap:24px}}
+.parts h3{font-size:1.02rem;font-weight:600;line-height:1.4}
+.parts p{margin-top:4px;color:var(--muted);line-height:1.6}
+.verbs{margin-top:10px;border-top:1px solid var(--rule)}
+.verb{display:grid;grid-template-columns:minmax(8rem,13rem) minmax(0,1fr);gap:4px 20px;padding-block:12px;border-bottom:1px solid var(--rule)}
+@media (max-width:560px){.verb{grid-template-columns:1fr}}
+.verb b{font-family:var(--f-display);font-weight:600;font-size:1.06rem;line-height:1.35}
+.verb p{line-height:1.6}
+.steps{list-style:none;margin:14px 0 0;padding:0;counter-reset:st;display:grid;gap:14px}
+.steps li{counter-increment:st;display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:12px;align-items:start;line-height:1.6}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:2rem;height:2rem;border:1.5px solid var(--ink);border-radius:50%;font-family:var(--f-display);font-weight:600;font-size:.95rem}
+
+/* ---------- lexique ---------- */
+.lex{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--rule)}
+.lex li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:2px 16px;align-items:center;padding-block:10px;border-bottom:1px solid var(--rule)}
+.lex .a{font-weight:600;line-height:1.45}
+.lex .f{font-family:var(--f-display);line-height:1.45;font-size:.98rem}
+
+/* ---------- outils ---------- */
+.calc{display:grid;gap:8px;margin-top:14px}
+.calc .hdr,.calc .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px;gap:8px;align-items:center}
+.calc .hdr span{font-family:var(--f-display);font-size:.8rem;color:var(--muted)}
+.calc input,.need input{width:100%;font-family:var(--f-display);font-size:1.05rem;padding:9px 10px;border:1px solid var(--rule);border-radius:var(--radius);background:var(--plate);color:var(--ink);text-align:center}
+.calc input:focus,.need input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.calc .btn{justify-self:start;margin-top:4px}
+.result{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:12px;border-top:1.5px solid var(--ink);font-family:var(--f-display);min-height:3.4rem}
+.result b{font-size:2.1rem;font-weight:600;line-height:1;unicode-bidi:isolate}
+.result span{color:var(--muted);font-size:.9rem}
+.need{display:grid;gap:12px;margin-top:14px}
+.need label{display:grid;gap:5px;font-family:var(--f-display);font-size:.85rem;color:var(--muted)}
+.need .msg{font-family:var(--f-display);font-size:1.02rem;line-height:1.55;padding-top:12px;border-top:1.5px solid var(--ink);min-height:3.4rem}
+.need .msg b{font-size:1.6rem;font-weight:600;unicode-bidi:isolate}
+
+/* ---------- footer ---------- */
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;margin-top:36px;padding-block:16px 30px;border-top:1.5px solid var(--ink);font-family:var(--f-display);font-size:.86rem;color:var(--muted);line-height:1.55}
+.foot a{color:inherit}
+.foot .grp{display:flex;flex-wrap:wrap;gap:4px 20px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{
+  .top,.demo,.skip,.lvbar,.chips,.filters,.btn,.iconbtn,.log-cap{display:none!important}
+  :root{--paper:#fff;--paper-2:#fff;--ink:#000;--muted:#333;--rule:#999;--plate:#fff;--action:#000}
+  body{font-size:12pt}
+  a{text-decoration:none}
+}
+#brandIcon{display:inline-flex;flex:none}
+main:focus,main:focus-visible{outline:none}
+html[dir="rtl"] :is(.alt,.o,.alt-title){text-align:right}
+html[dir="ltr"] :is(.alt,.o,.alt-title){text-align:left}
+.lex{max-width:780px}
+.tablewrap{max-width:720px}
+</style>
+</head>
+<body>
+<a class="skip" id="skip" href="#main">تخطَّ إلى المحتوى</a>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#home"><span id="brandIcon" aria-hidden="true"></span><span class="brand-t"><b id="brandT">علوم الحياة والأرض</b><small id="brandS"></small></span></a>
+    <button class="tbtn" id="langBtn" type="button">FR</button>
+    <button class="tbtn" id="themeBtn" type="button"></button>
+  </div>
+  <div class="wrap"><nav class="views" id="nav"></nav></div>
+</header>
+<div class="demo" id="demo" hidden></div>
+<main id="main" class="wrap" tabindex="-1">
+  <noscript><p style="padding:24px 0">يحتاج هذا الموقع إلى تفعيل JavaScript في المتصفح. Ce site nécessite JavaScript.</p></noscript>
+</main>
+<footer class="wrap foot" id="foot"></footer>
+<script>
+(() => {
+"use strict";
+const doc = document, root = doc.documentElement;
+const $ = id => doc.getElementById(id);
+const main = $("main");
+
+if (typeof SITE === "undefined") {
+  main.innerHTML = '<p style="padding:24px 0">تعذر قراءة كتلة الإعدادات SITE: تحقق من الفواصل وعلامات التنصيص.<br>Le bloc SITE contient une erreur de syntaxe : vérifie les virgules et les guillemets.</p>';
+  return;
+}
+
+/* ============ البرنامج الرسمي | Programme officiel ============ */
+const CH = {
+  "tc.eaux": ["استغلال المياه وتلويثها", "Exploitation des eaux et leurs pollutions"],
+  "tc.reserves": ["تكوين المدخرات المائية", "Formation des réserves d'eau"],
+  "tc.potable": ["الماء الشروب ودورة الماء", "L'eau potable et le cycle de l'eau"],
+  "tc.desequilibres": ["بعض مظاهر اختلال التوازنات الطبيعية", "Quelques aspects de la perturbation des équilibres naturels"],
+  "tc.preservation": ["المحافظة على التوازنات الطبيعية", "La préservation des équilibres naturels"],
+  "tc.sante": ["الصحة والبيئة", "Santé et environnement"],
+  "1bac.paleo": ["إنجاز الخريطة الجغرافية القديمة لمنطقة ما", "Réalisation de la carte paléogéographique d'une région"],
+  "1bac.histoire": ["إعادة بناء التاريخ الجيولوجي لمنطقة رسوبية", "Restitution de l'histoire géologique d'une région sédimentaire"],
+  "1bac.absorption": ["آليات امتصاص الماء والأملاح المعدنية عند النباتات", "Mécanismes d'absorption de l'eau et des sels minéraux chez les plantes"],
+  "1bac.echanges": ["التبادلات الغازية اليخضورية وإنتاج المادة العضوية", "Échanges gazeux chlorophylliens et production de la matière organique"],
+  "1bac.photo": ["تحويل الطاقة الضوئية إلى طاقة كيميائية وتركيب المادة العضوية", "Conversion de l'énergie lumineuse en énergie chimique et synthèse de la matière organique"],
+  "1bac.glycemie": ["الاتصال الهرموني: تنظيم نسبة السكر في الدم", "La communication hormonale : régulation de la glycémie"],
+  "1bac.nerveuse": ["الاتصال العصبي", "La communication nerveuse"],
+  "1bac.reproduction": ["تنظيم وظيفة التوالد عند الإنسان", "Régulation de la fonction de reproduction chez l'Homme"],
+  "1bac.pression": ["تنظيم الضغط الشرياني والحفاظ على التوازن المائي المعدني", "Régulation de la pression artérielle et maintien de l'équilibre hydrominéral"],
+  "2bac.energie": ["تحرير الطاقة الكامنة في المادة العضوية", "Libération de l'énergie emmagasinée dans la matière organique"],
+  "2bac.muscle": ["دور العضلة الهيكلية المخططة في تحويل الطاقة", "Rôle du muscle strié squelettique dans la conversion de l'énergie"],
+  "2bac.info": ["مفهوم الخبر الوراثي", "Notion de l'information génétique"],
+  "2bac.expression": ["تعبير الخبر الوراثي", "Expression de l'information génétique"],
+  "2svt.genie": ["الهندسة الوراثية", "Génie génétique"],
+  "2bac.meiose": ["نقل الخبر الوراثي عبر التوالد الجنسي", "Transfert de l'information génétique au cours de la reproduction sexuée"],
+  "2bac.lois": ["القوانين الإحصائية لانتقال الصفات الوراثية عند ثنائيات الصيغة الصبغية", "Lois statistiques de la transmission des caractères héréditaires chez les diploïdes"],
+  "2svt.humaine": ["علم الوراثة البشرية", "Génétique humaine"],
+  "2svt.populations": ["علم وراثة الساكنة", "Génétique des populations"],
+  "2svt.soi": ["الذات واللاذات", "Le soi et le non-soi"],
+  "2svt.defense": ["وسائل دفاع الجسم", "Les moyens de défense de l'organisme"],
+  "2svt.specifique": ["آليات الاستجابة المناعية النوعية", "Les mécanismes de la réponse immunitaire spécifique"],
+  "2svt.dysfonction": ["اختلالات الجهاز المناعي", "Les dysfonctionnements du système immunitaire"],
+  "2svt.aide": ["مساعدة الجهاز المناعي", "Aider le système immunitaire"],
+  "2pc.ordures": ["الأزبال المنزلية الناتجة عن استعمال المواد العضوية وغير العضوية", "Les ordures ménagères issues de l'utilisation des matières organiques et inorganiques"],
+  "2pc.pollution": ["تلوث الأوساط الطبيعية", "La pollution des milieux naturels"],
+  "2pc.nucleaire": ["المواد المشعة والطاقة النووية", "Les matières radioactives et l'énergie nucléaire"],
+  "2pc.qualite": ["مراقبة جودة وسلامة الأوساط الطبيعية", "Contrôle de la qualité et de la salubrité des milieux naturels"],
+  "2bac.chaines": ["السلاسل الجبلية الحديثة وعلاقتها بتكتونية الصفائح", "Les chaînes de montagnes récentes et leur relation avec la tectonique des plaques"],
+  "2bac.metamorphisme": ["التحول وعلاقته بتكتونية الصفائح", "Le métamorphisme et sa relation avec la tectonique des plaques"],
+  "2bac.granitisation": ["الكرانيتية وعلاقتها بالتحول", "La granitisation et sa relation avec le métamorphisme"]
+};
+const U = (ar, fr, ch) => ({ ar, fr, ch });
+const ENERGY = U("استهلاك المادة العضوية وتدفق الطاقة", "Consommation de la matière organique et flux d'énergie", ["2bac.energie", "2bac.muscle"]);
+const GEO2 = U("الظواهر الجيولوجية المصاحبة لتكون السلاسل الجبلية وعلاقتها بتكتونية الصفائح", "Phénomènes géologiques accompagnant la formation des chaînes de montagnes et leur relation avec la tectonique des plaques", ["2bac.chaines", "2bac.metamorphisme", "2bac.granitisation"]);
+const PROGRAM = {
+  tclsh: [
+    U("الماء مصدر الحياة", "L'eau, source de vie", ["tc.eaux", "tc.reserves", "tc.potable"]),
+    U("الإنسان والبيئة", "L'Homme et l'environnement", ["tc.desequilibres", "tc.preservation", "tc.sante"])
+  ],
+  "1bac": [
+    U("الظواهر الجيولوجية الخارجية", "Les phénomènes géologiques externes", ["1bac.paleo", "1bac.histoire"]),
+    U("إنتاج المادة العضوية وتدفق الطاقة", "Production de la matière organique et flux d'énergie", ["1bac.absorption", "1bac.echanges", "1bac.photo"]),
+    U("الاتصال الهرموني والاتصال العصبي", "Les communications hormonale et nerveuse", ["1bac.glycemie", "1bac.nerveuse"]),
+    U("الاندماج العصبي الهرموني", "L'intégration neuro-hormonale", ["1bac.reproduction", "1bac.pression"])
+  ],
+  "2svt": [
+    ENERGY,
+    U("طبيعة الخبر الوراثي وآلية تعبيره، الهندسة الوراثية", "Nature et mécanisme d'expression de l'information génétique, génie génétique", ["2bac.info", "2bac.expression", "2svt.genie"]),
+    U("نقل الخبر الوراثي عبر التوالد الجنسي، علم الوراثة البشرية", "Transfert de l'information génétique par la reproduction sexuée, génétique humaine", ["2bac.meiose", "2bac.lois", "2svt.humaine"]),
+    U("التغير وعلم وراثة الساكنة", "Variation et génétique des populations", ["2svt.populations"]),
+    U("المناعة", "L'immunologie", ["2svt.soi", "2svt.defense", "2svt.specifique", "2svt.dysfonction", "2svt.aide"]),
+    GEO2
+  ],
+  "2pc": [
+    ENERGY,
+    U("طبيعة الخبر الوراثي وآلية تعبيره، نقله عبر التوالد الجنسي", "Nature, expression et transfert de l'information génétique", ["2bac.info", "2bac.expression", "2bac.meiose", "2bac.lois"]),
+    U("استعمال المواد العضوية وغير العضوية", "Utilisation des matières organiques et inorganiques", ["2pc.ordures", "2pc.pollution", "2pc.nucleaire", "2pc.qualite"]),
+    GEO2
+  ]
+};
+
+/* ============ المستويات: كل مستوى طبقة | Chaque niveau est une strate ============ */
+const LEVELS = [
+  { id: "tclsh", year: 1, pat: "limestone", litho: { ar: "كلس", fr: "calcaire" },
+    stage: { ar: "الجذع المشترك", fr: "Tronc commun" }, track: { ar: "آداب وعلوم إنسانية", fr: "Lettres et sciences humaines" },
+    name: { ar: "الجذع المشترك آداب وعلوم إنسانية", fr: "Tronc commun Lettres et Sciences humaines" }, short: { ar: "ج.م آداب", fr: "TC LSH" } },
+  { id: "1bac", year: 2, pat: "marl", litho: { ar: "مارن", fr: "marne" },
+    stage: { ar: "الأولى باك", fr: "1re Bac" }, track: { ar: "علوم تجريبية", fr: "Sciences expérimentales" },
+    name: { ar: "الأولى باكالوريا علوم تجريبية", fr: "1re année Bac Sciences expérimentales" }, short: { ar: "1 باك ع.ت", fr: "1BAC SE" } },
+  { id: "2svt", year: 3, pat: "sandstone", litho: { ar: "حث", fr: "grès" },
+    stage: { ar: "الثانية باك", fr: "2e Bac" }, track: { ar: "علوم الحياة والأرض", fr: "Sciences de la vie et de la terre" },
+    name: { ar: "الثانية باكالوريا علوم الحياة والأرض", fr: "2e année Bac Sciences de la vie et de la terre" }, short: { ar: "2 باك ع.ح.أ", fr: "2BAC SVT" } },
+  { id: "2pc", year: 3, pat: "conglomerate", litho: { ar: "كونكلوميرا", fr: "conglomérat" },
+    stage: { ar: "الثانية باك", fr: "2e Bac" }, track: { ar: "العلوم الفيزيائية", fr: "Sciences physiques" },
+    name: { ar: "الثانية باكالوريا العلوم الفيزيائية", fr: "2e année Bac Sciences physiques" }, short: { ar: "2 باك ع.ف", fr: "2BAC PC" } }
+];
+const LV = Object.fromEntries(LEVELS.map(l => [l.id, l]));
+
+/* ============ المعجم | Lexique [عربية، فرنسية، مستوى] ============ */
+const GLOSSARY = [
+  ["دورة الماء", "cycle de l'eau", "tc"], ["التبخر", "évaporation", "tc"], ["التساقطات", "précipitations", "tc"],
+  ["الجريان السطحي", "ruissellement", "tc"], ["التسرب", "infiltration", "tc"], ["الفرشة المائية", "nappe phréatique", "tc"],
+  ["النفاذية", "perméabilité", "tc"], ["المسامية", "porosité", "tc"], ["الماء الشروب", "eau potable", "tc"],
+  ["معالجة المياه", "traitement des eaux", "tc"], ["المياه العادمة", "eaux usées", "tc"], ["التخاصب", "eutrophisation", "tc"],
+  ["الاحتباس الحراري", "effet de serre", "tc"], ["طبقة الأوزون", "couche d'ozone", "tc"], ["الأمطار الحمضية", "pluies acides", "tc"],
+  ["التنوع البيولوجي", "biodiversité", "tc"], ["المحمية الطبيعية", "réserve naturelle", "tc"], ["الوباء", "épidémie", "tc"],
+  ["الأغذية المعدلة وراثيا", "aliments génétiquement modifiés", "tc"], ["التصحر", "désertification", "tc"],
+  ["الجغرافيا القديمة", "paléogéographie", "1bac"], ["الوسط القديم", "paléoenvironnement", "1bac"], ["المستحاثة", "fossile", "1bac"],
+  ["مستحاثة السحنة", "fossile de faciès", "1bac"], ["المستحاثة الطبقية", "fossile stratigraphique", "1bac"], ["السحنة", "faciès", "1bac"],
+  ["مبدأ الحالية", "principe de l'actualisme", "1bac"], ["التجاوز البحري", "transgression", "1bac"], ["التراجع البحري", "régression", "1bac"],
+  ["التحليل الحبيبي", "granulométrie", "1bac"], ["المورفوسكوبيا", "morphoscopie", "1bac"], ["التصخر", "diagenèse", "1bac"],
+  ["مبدأ التراكب", "principe de superposition", "1bac"], ["مبدأ الاستمرارية", "principe de continuité", "1bac"],
+  ["مبدأ التقاطع", "principe de recoupement", "1bac"], ["مبدأ التطابق المستحاثي", "principe d'identité paléontologique", "1bac"],
+  ["عدم التوافق", "discordance", "1bac"], ["الأوبار الماصة", "poils absorbants", "1bac"], ["الضغط الأسموزي", "pression osmotique", "1bac"],
+  ["البلزمة", "plasmolyse", "1bac"], ["الانتفاخ", "turgescence", "1bac"], ["النقل النشيط", "transport actif", "1bac"],
+  ["النسغ الخام", "sève brute", "1bac"], ["النسغ الكامل", "sève élaborée", "1bac"], ["التركيب الضوئي", "photosynthèse", "1bac"],
+  ["اليخضور", "chlorophylle", "1bac"], ["الصانعة الخضراء", "chloroplaste", "1bac"], ["الثغر", "stomate", "1bac"],
+  ["طيف الامتصاص", "spectre d'absorption", "1bac"], ["طيف العمل", "spectre d'action", "1bac"], ["الانحلال الضوئي للماء", "photolyse de l'eau", "1bac"],
+  ["دورة كالفن", "cycle de Calvin", "1bac"], ["نسبة السكر في الدم", "glycémie", "1bac"], ["الأنسولين", "insuline", "1bac"],
+  ["الغليكاغون", "glucagon", "1bac"], ["جزر لانغرهانس", "îlots de Langerhans", "1bac"], ["الخلية الهدف", "cellule cible", "1bac"],
+  ["داء السكري", "diabète", "1bac"], ["العصبون", "neurone", "1bac"], ["كمون الراحة", "potentiel de repos", "1bac"],
+  ["كمون العمل", "potentiel d'action", "1bac"], ["المشبك", "synapse", "1bac"], ["الوسيط الكيميائي", "neurotransmetteur", "1bac"],
+  ["المنعكس العضلي", "réflexe myotatique", "1bac"], ["الوطاء", "hypothalamus", "1bac"], ["الغدة النخامية", "hypophyse", "1bac"],
+  ["الضغط الشرياني", "pression artérielle", "1bac"],
+  ["التنفس الخلوي", "respiration cellulaire", "2bac"], ["التخمر", "fermentation", "2bac"], ["الانحلال السكري", "glycolyse", "2bac"],
+  ["دورة كريبس", "cycle de Krebs", "2bac"], ["السلسلة التنفسية", "chaîne respiratoire", "2bac"], ["الفسفرة المؤكسدة", "phosphorylation oxydative", "2bac"],
+  ["الميتوكوندري", "mitochondrie", "2bac"], ["الساركومير", "sarcomère", "2bac"], ["اللييف العضلي", "myofibrille", "2bac"],
+  ["الفوسفوكرياتين", "phosphocréatine", "2bac"], ["الخبر الوراثي", "information génétique", "2bac"], ["الانقسام غير المباشر", "mitose", "2bac"],
+  ["مضاعفة ADN", "réplication de l'ADN", "2bac"], ["المورثة", "gène", "2bac"], ["الحليل", "allèle", "2bac"],
+  ["الاستنساخ", "transcription", "2bac"], ["الترجمة", "traduction", "2bac"], ["الرمز الوراثي", "code génétique", "2bac"],
+  ["الوحدة الرمزية", "codon", "2bac"], ["الطفرة", "mutation", "2bac"], ["الانقسام الاختزالي", "méiose", "2bac"],
+  ["الإخصاب", "fécondation", "2bac"], ["التخليط الضمصبغي", "brassage intrachromosomique", "2bac"], ["التخليط البيصبغي", "brassage interchromosomique", "2bac"],
+  ["العبور", "crossing-over", "2bac"], ["النمط الوراثي", "génotype", "2bac"], ["النمط الظاهري", "phénotype", "2bac"],
+  ["تساوي السيادة", "codominance", "2bac"], ["التزاوج الاختباري", "croisement-test", "2bac"], ["الخريطة العاملية", "carte factorielle", "2bac"],
+  ["الهندسة الوراثية", "génie génétique", "2bac"], ["أنزيمات الفصل", "enzymes de restriction", "2bac"], ["شجرة النسب", "arbre généalogique", "2bac"],
+  ["قانون هاردي-واينبرغ", "loi de Hardy-Weinberg", "2bac"], ["الانحراف الوراثي", "dérive génétique", "2bac"], ["الذات واللاذات", "soi et non-soi", "2bac"],
+  ["مولد المضاد", "antigène", "2bac"], ["مضاد الجسم", "anticorps", "2bac"], ["البلعمة", "phagocytose", "2bac"],
+  ["التلقيح", "vaccination", "2bac"], ["الأزبال المنزلية", "ordures ménagères", "2bac"], ["العصارة", "lixiviat", "2bac"],
+  ["النشاط الإشعاعي", "radioactivité", "2bac"], ["الانطمار", "subduction", "2bac"], ["الحجب", "obduction", "2bac"],
+  ["الاصطدام", "collision", "2bac"], ["الأوفيوليت", "ophiolite", "2bac"], ["الموشور التضخمي", "prisme d'accrétion", "2bac"],
+  ["التحول", "métamorphisme", "2bac"], ["المعدن المؤشر", "minéral indicateur", "2bac"], ["الكرانيتية", "granitisation", "2bac"],
+  ["الانصهار الجزئي", "fusion partielle", "2bac"], ["الميكماتيت", "migmatite", "2bac"]
+];
+const GROUP_LV = { tc: "tclsh", "1bac": "1bac", "2bac": "2svt" };
+
+/* ============ المنهجية | Méthodologie ============ */
+const VERBS = [
+  { v: { ar: "عرّف", fr: "Définir" }, d: { ar: "أعط معنى المصطلح في جملة دقيقة وقصيرة.", fr: "Donne le sens exact du terme en une phrase courte." } },
+  { v: { ar: "صِف", fr: "Décrire" }, d: { ar: "انقل ما تراه في الوثيقة بالكلمات، مع القيم والوحدات، دون تفسير.", fr: "Traduis le document en mots, avec valeurs et unités, sans l'expliquer." } },
+  { v: { ar: "حلّل", fr: "Analyser" }, d: { ar: "جزّئ الوثيقة وقارن معطياتها لتستخرج العلاقة بين المتغيرات.", fr: "Décompose le document et compare ses données pour dégager la relation entre variables." } },
+  { v: { ar: "قارن", fr: "Comparer" }, d: { ar: "أبرز أوجه التشابه والاختلاف بالأرقام.", fr: "Fais ressortir ressemblances et différences, chiffres à l'appui." } },
+  { v: { ar: "استخرج", fr: "Relever" }, d: { ar: "خذ المعلومة المطلوبة مباشرة من الوثيقة.", fr: "Prélève directement dans le document l'information demandée." } },
+  { v: { ar: "حدّد", fr: "Déterminer" }, d: { ar: "أعط جوابا دقيقا ومختصرا: قيمة أو اسما أو موقعا.", fr: "Donne une réponse précise et brève : une valeur, un nom ou une localisation." } },
+  { v: { ar: "استنتج", fr: "Déduire" }, d: { ar: "اخلص إلى نتيجة منطقية انطلاقا من المعطيات.", fr: "Tire une conclusion logique à partir des données." } },
+  { v: { ar: "فسّر", fr: "Expliquer" }, d: { ar: "أعط سبب الظاهرة بربط المعطيات بمعارفك.", fr: "Donne la cause du phénomène en reliant les données à tes connaissances." } },
+  { v: { ar: "بيّن", fr: "Montrer" }, d: { ar: "أثبت فكرة معطاة بحجج من الوثيقة.", fr: "Prouve une idée donnée avec des arguments tirés du document." } },
+  { v: { ar: "علّل", fr: "Justifier" }, d: { ar: "قدّم الحجة التي يقوم عليها جوابك.", fr: "Donne l'argument sur lequel repose ta réponse." } },
+  { v: { ar: "اقترح فرضية", fr: "Proposer une hypothèse" }, d: { ar: "قدّم تفسيرا مؤقتا يمكن اختباره بتجربة.", fr: "Propose une explication provisoire qu'une expérience peut tester." } },
+  { v: { ar: "احسب", fr: "Calculer" }, d: { ar: "اكتب العلاقة، ثم عوّض، ثم أعط النتيجة بوحدتها.", fr: "Écris la relation, remplace, puis donne le résultat avec son unité." } },
+  { v: { ar: "أنجز رسما تخطيطيا", fr: "Réaliser un schéma" }, d: { ar: "رسم واضح بقلم الرصاص، بعنوان وبيانات كاملة.", fr: "Un dessin clair au crayon, avec un titre et une légende complète." } }
+];
+const STEPS = [
+  { ar: "اقرأ العنوان وحدّد المتغيرين ووحدتيهما.", fr: "Lis le titre et repère les deux variables et leurs unités." },
+  { ar: "قسّم المنحنى إلى مراحل حسب تغيّر اتجاهه.", fr: "Découpe la courbe en phases selon les changements d'allure." },
+  { ar: "صف كل مرحلة بقيم مرقّمة: من… إلى… خلال…", fr: "Décris chaque phase avec des valeurs chiffrées : de… à… en…" },
+  { ar: "استنتج العلاقة بين المتغيرين.", fr: "Déduis la relation entre les deux variables." },
+  { ar: "فسّر اعتمادا على معارفك إذا طلبت التعليمة ذلك.", fr: "Explique avec tes connaissances si la consigne le demande." }
+];
+const FACTS = [
+  { ar: "لو فُرد ADN خلية بشرية واحدة لبلغ طوله نحو مترين.", fr: "Déroulé, l'ADN d'une seule cellule humaine mesurerait environ deux mètres." },
+  { ar: "يضم جسم الإنسان قرابة 37 ألف مليار خلية.", fr: "Le corps humain compte environ 37 000 milliards de cellules." },
+  { ar: "تتحرك الصفائح التكتونية ببضعة سنتيمترات في السنة، أي تقريبا بسرعة نمو الأظافر.", fr: "Les plaques tectoniques se déplacent de quelques centimètres par an, à peu près la vitesse de pousse des ongles." },
+  { ar: "لا يكفي مخزون ATP في العضلة إلا لثوان معدودة من الجهد، لذلك يُجدَّد باستمرار.", fr: "La réserve d'ATP d'un muscle ne couvre que quelques secondes d'effort : elle est sans cesse régénérée." },
+  { ar: "الرمز الوراثي شبه كوني: الوحدة الرمزية نفسها تُترجم إلى الحمض الأميني نفسه عند جل الكائنات الحية.", fr: "Le code génétique est quasi universel : un même codon donne le même acide aminé chez presque tous les êtres vivants." },
+  { ar: "يُقدَّر عمر الأرض بنحو 4,6 مليار سنة.", fr: "L'âge de la Terre est estimé à environ 4,6 milliards d'années." },
+  { ar: "تنتج العوالق النباتية البحرية قرابة نصف الأكسجين الذي يطلقه التركيب الضوئي على الأرض.", fr: "Le phytoplancton marin produit environ la moitié de l'oxygène libéré par la photosynthèse sur Terre." },
+  { ar: "قد تتجاوز سرعة السيالة العصبية 100 متر في الثانية في الألياف المنخعنة.", fr: "Dans les fibres myélinisées, le message nerveux peut dépasser 100 mètres par seconde." },
+  { ar: "يشتهر المغرب عالميا بمستحاثاته، كالأمونيت وثلاثيات الفصوص في الجنوب الشرقي.", fr: "Le Maroc est célèbre dans le monde pour ses fossiles, comme les ammonites et les trilobites du Sud-Est." }
+];
+
+/* ============ نصوص الواجهة | Textes de l'interface ============ */
+const plAr = (n, one, two, few, many) => n === 1 ? one : n === 2 ? two : (n % 100 >= 3 && n % 100 <= 10) ? `${n} ${few}` : `${n} ${many}`;
+const UI = {
+  ar: {
+    other: "fr", langBtn: "FR", langAria: "Passer en français", brand: "علوم الحياة والأرض",
+    nav: { home: "الرئيسية", cours: "الدروس", ressources: "الموارد", classe: "القسم", methode: "المنهجية", lexique: "المعجم", outils: "أدوات" },
+    navAria: "أقسام الموقع", themeDark: "تفعيل الوضع الداكن", themeLight: "تفعيل الوضع الفاتح", skip: "تخطَّ إلى المحتوى",
+    heroTitle: "علوم الحياة والأرض", heroAlt: "Sciences de la Vie et de la Terre", season: "الموسم الدراسي",
+    logAria: "المستويات الدراسية في شكل عمود طبقي",
+    logCaption: "كل مستوى طبقة رسوبية: الأقدم في الأسفل، كما ينص مبدأ التراكب. اضغط على طبقتك لتصل إلى دروسها.",
+    college: "الإعدادي", layerOf: x => `طبقة من ال${x}`,
+    chapters: n => plAr(n, "فصل واحد", "فصلان", "فصول", "فصلا"),
+    ann: "المستجدات", annEmpty: "لا توجد مستجدات حاليا.",
+    ev: "المواعيد القادمة", evEmpty: "لا مواعيد مبرمجة حاليا.",
+    today: "اليوم", tomorrow: "غدا", inDays: n => n === 2 ? "بعد يومين" : (n <= 10 ? `بعد ${n} أيام` : `بعد ${n} يوما`),
+    allLevels: "جميع المستويات", fact: "هل تعلم؟",
+    lab: "المختبر الافتراضي", labDesc: "تجارب تفاعلية نشتغل عليها خلال حصص الأولى باكالوريا علوم تجريبية، ويمكن إعادتها من المنزل.",
+    labOpen: "فتح المختبر", labMissing: "سيضاف الرابط قريبا",
+    coursH: "الدروس", coursLead: "البرنامج الرسمي لكل مستوى، مع موارد كل فصل عند توفرها.",
+    unit: "الوحدة", progress: (i, n) => `الفصل <b>${i}</b> من ${n}`, noCurrent: "لم يُحدَّد الدرس الحالي بعد.", here: "نحن هنا",
+    resKinds: { cours: "الدرس", resume: "ملخص", exercices: "تمارين", video: "فيديو" }, resSoon: "الموارد قريبا",
+    ressH: "الموارد", ressLead: "دروس وملخصات وسلاسل تمارين ووثائق، مصنفة حسب المستوى، والامتحانات الوطنية.",
+    all: "الكل", search: "ابحث في الموارد",
+    count: n => n === 0 ? "لا موارد" : plAr(n, "مورد واحد", "موردان", "موارد", "موردا"),
+    noRes: "لا يوجد مورد مطابق. جرّب مستوى آخر أو كلمة أقصر.", open: "فتح", notYet: "غير متاح بعد",
+    types: { cours: "درس", resume: "ملخص", exercices: "تمارين", serie: "سلسلة تمارين", devoir: "فرض محروس", doc: "وثيقة", video: "فيديو" },
+    exH: "الامتحانات الوطنية", exLead: "المواضيع والتصحيحات، الدورة العادية والدورة الاستدراكية.",
+    exYear: "السنة", exN: "الدورة العادية", exR: "الدورة الاستدراكية", exS: "الموضوع", exC: "التصحيح",
+    exNote: "روابط خارجية نحو موقع AlloSchool.", exNone: "الامتحانات الوطنية تخص مستوى الثانية باكالوريا.",
+    classeH: "القسم", classeLead: "استعمال الزمن، مواعيد الفروض، ما أنجزناه في كل حصة، وقواعد العمل المشترك.",
+    tt: "استعمال الزمن", room: "القاعة", free: "لا حصة", todayTag: "اليوم",
+    logH: "سجل الحصص والواجبات", done: "أنجزنا", todo: "الواجب", logEmpty: "لا شيء مسجل بعد.",
+    charter: "ميثاق القسم", evalH: "التقويم",
+    methodeH: "المنهجية", methodeLead: "كيف تقرأ الوثيقة، وتفهم التعليمة، وتحرر جوابا كاملا.",
+    structH: "بنية موضوع الامتحان الوطني", pts5: "نقط", pts15: "نقطة",
+    p1: "استرداد المعارف", p1d: "أسئلة مباشرة: تعريف، اختيار من متعدد، صحيح أو خطأ، ربط، ترتيب.",
+    p2: "الاستدلال العلمي والتواصل الكتابي والبياني", p2d: "تمارين مبنية على وثائق: منحنيات، جداول، رسوم ونتائج تجريبية.",
+    verbsH: "أفعال التعليمات", verbsLead: "كل فعل ينتظر نوعا محددا من الجواب. اقرأ الفعل قبل أن تكتب.",
+    stepsH: "قراءة منحنى في خمس خطوات",
+    lexH: "المعجم العلمي", lexLead: "مصطلحات البرنامج بالعربية والفرنسية، حسب المستوى.", lexSearch: "ابحث بالعربية أو بالفرنسية",
+    terms: n => n === 0 ? "لا مصطلحات" : plAr(n, "مصطلح واحد", "مصطلحان", "مصطلحات", "مصطلحا"),
+    lexEmpty: "لا نتيجة. تحقق من الإملاء أو اختر «الكل».",
+    groups: { all: "الكل", tc: "الجذع المشترك", "1bac": "الأولى باك", "2bac": "الثانية باك" },
+    outilsH: "أدوات", outilsLead: "احسب معدلك، واعرف النقطة التي تحتاجها، وافتح المختبر الافتراضي.",
+    avgH: "حاسبة المعدل", avgLead: "أدخل نقطك على 20 ومعامل كل واحدة.",
+    note: "النقطة /20", coef: "المعامل", addRow: "إضافة نقطة", delRow: "حذف هذه النقطة",
+    avg: "المعدل", avgNone: "أدخل نقطة واحدة على الأقل.",
+    needH: "كم أحتاج في الفرض القادم؟",
+    needLead: "أدخل نقطك الحالية تفصل بينها مسافة، ثم المعدل الذي تريد بلوغه. نفترض أن للفروض المعامل نفسه.",
+    needNotes: "نقطي الحالية", needTarget: "المعدل المستهدف",
+    needMsg: x => `تحتاج إلى <b>${x}</b> على 20 في الفرض القادم.`,
+    needHigh: x => `يتطلب هذا الهدف ${x} على 20، أي أكثر من العلامة الكاملة. وزّعه على فرضين أو أكثر.`,
+    needOk: "سيبقى معدلك فوق الهدف مهما كانت نقطة الفرض القادم.",
+    needEmpty: "أدخل نقطة واحدة على الأقل والمعدل المستهدف.",
+    updated: "آخر تحديث", contact: "للتواصل",
+    demo: "نسخة تجريبية: المستجدات والمواعيد واستعمال الزمن والسجل أمثلة للتوضيح. عدّلها في كتلة SITE أعلى الملف، ثم اكتب demo: false.",
+    demoClose: "إخفاء التنبيه", noscript: "", sep: "، "
+  },
+  fr: {
+    other: "ar", langBtn: "ع", langAria: "التبديل إلى العربية", brand: "Espace SVT",
+    nav: { home: "Accueil", cours: "Cours", ressources: "Ressources", classe: "La classe", methode: "Méthode", lexique: "Lexique", outils: "Outils" },
+    navAria: "Rubriques du site", themeDark: "Activer le mode sombre", themeLight: "Activer le mode clair", skip: "Aller au contenu",
+    heroTitle: "Sciences de la Vie et de la Terre", heroAlt: "علوم الحياة والأرض", season: "Année scolaire",
+    logAria: "Les niveaux présentés comme une colonne stratigraphique",
+    logCaption: "Chaque niveau est une strate : la plus ancienne en bas, selon le principe de superposition. Touche ta couche pour ouvrir ses cours.",
+    college: "Collège", layerOf: x => `Couche de ${x}`,
+    chapters: n => `${n} chapitre${n > 1 ? "s" : ""}`,
+    ann: "Annonces", annEmpty: "Aucune annonce pour le moment.",
+    ev: "Prochaines échéances", evEmpty: "Aucune échéance programmée.",
+    today: "Aujourd'hui", tomorrow: "Demain", inDays: n => `Dans ${n} jours`,
+    allLevels: "Tous les niveaux", fact: "Le saviez-vous ?",
+    lab: "Laboratoire virtuel", labDesc: "Les expériences interactives de nos séances de 1re Bac Sciences expérimentales, à refaire depuis chez soi.",
+    labOpen: "Ouvrir le labo", labMissing: "Lien bientôt disponible",
+    coursH: "Cours", coursLead: "Le programme officiel de chaque niveau, avec les ressources de chaque chapitre dès qu'elles sont prêtes.",
+    unit: "Unité", progress: (i, n) => `Chapitre <b>${i}</b> sur ${n}`, noCurrent: "Leçon en cours non précisée.", here: "Nous en sommes ici",
+    resKinds: { cours: "Cours", resume: "Résumé", exercices: "Exercices", video: "Vidéo" }, resSoon: "Ressources bientôt",
+    ressH: "Ressources", ressLead: "Cours, résumés, séries d'exercices et documents classés par niveau, et les examens nationaux.",
+    all: "Tout", search: "Rechercher une ressource",
+    count: n => n === 0 ? "Aucune ressource" : `${n} ressource${n > 1 ? "s" : ""}`,
+    noRes: "Aucune ressource ne correspond. Essaie un autre niveau ou un mot plus court.", open: "Ouvrir", notYet: "Pas encore en ligne",
+    types: { cours: "Cours", resume: "Résumé", exercices: "Exercices", serie: "Série d'exercices", devoir: "Devoir surveillé", doc: "Document", video: "Vidéo" },
+    exH: "Examens nationaux", exLead: "Sujets et corrigés, session normale et session de rattrapage.",
+    exYear: "Année", exN: "Session normale", exR: "Rattrapage", exS: "Sujet", exC: "Corrigé",
+    exNote: "Liens externes vers AlloSchool.", exNone: "Les examens nationaux concernent la 2e année Bac.",
+    classeH: "La classe", classeLead: "Emploi du temps, dates des devoirs, cahier de textes et règles de vie commune.",
+    tt: "Emploi du temps", room: "Salle", free: "Pas de séance", todayTag: "Aujourd'hui",
+    logH: "Cahier de textes", done: "Fait en classe", todo: "À faire", logEmpty: "Rien d'inscrit pour l'instant.",
+    charter: "Charte de la classe", evalH: "Évaluation",
+    methodeH: "Méthodologie", methodeLead: "Lire un document, comprendre une consigne, rédiger une réponse complète.",
+    structH: "Structure du sujet national", pts5: "pts", pts15: "pts",
+    p1: "Restitution des connaissances", p1d: "Questions directes : définition, QCM, vrai ou faux, association, mise en ordre.",
+    p2: "Raisonnement scientifique et communication écrite et graphique", p2d: "Exercices sur documents : courbes, tableaux, schémas et résultats expérimentaux.",
+    verbsH: "Les verbes de consigne", verbsLead: "Chaque verbe attend un type de réponse précis. Lis le verbe avant d'écrire.",
+    stepsH: "Lire une courbe en cinq étapes",
+    lexH: "Lexique scientifique", lexLead: "Les termes du programme en arabe et en français, par niveau.", lexSearch: "Chercher en arabe ou en français",
+    terms: n => n === 0 ? "Aucun terme" : `${n} terme${n > 1 ? "s" : ""}`,
+    lexEmpty: "Aucun résultat. Vérifie l'orthographe ou choisis « Tout ».",
+    groups: { all: "Tout", tc: "Tronc commun", "1bac": "1re Bac", "2bac": "2e Bac" },
+    outilsH: "Outils", outilsLead: "Calcule ta moyenne, vise une note, ouvre le laboratoire virtuel.",
+    avgH: "Calculer une moyenne", avgLead: "Saisis tes notes sur 20 et le coefficient de chacune.",
+    note: "Note /20", coef: "Coef.", addRow: "Ajouter une note", delRow: "Supprimer cette note",
+    avg: "Moyenne", avgNone: "Saisis au moins une note.",
+    needH: "Quelle note viser au prochain devoir ?",
+    needLead: "Saisis tes notes actuelles séparées par des espaces, puis la moyenne visée. Tous les devoirs ont ici le même coefficient.",
+    needNotes: "Mes notes actuelles", needTarget: "Moyenne visée",
+    needMsg: x => `Il te faut <b>${x}</b> sur 20 au prochain devoir.`,
+    needHigh: x => `Il faudrait ${x} sur 20, au-delà de la note maximale. Vise cet objectif sur deux devoirs ou plus.`,
+    needOk: "Ta moyenne restera au-dessus de l'objectif, quelle que soit la prochaine note.",
+    needEmpty: "Saisis au moins une note et la moyenne visée.",
+    updated: "Mis à jour le", contact: "Contact",
+    demo: "Version de démonstration : annonces, échéances, emploi du temps et cahier de textes sont des exemples. Modifie le bloc SITE en haut du fichier, puis écris demo: false.",
+    demoClose: "Masquer l'avertissement", sep: ", "
+  }
+};
+
+/* ============ أدوات | Utilitaires ============ */
+const store = {
+  get(k) { try { return window.localStorage.getItem("svt-site:" + k); } catch (e) { return null; } },
+  set(k, v) { try { window.localStorage.setItem("svt-site:" + k, v); } catch (e) { /* stockage indisponible */ } }
+};
+const state = {
+  lang: store.get("lang") === "fr" ? "fr" : "ar",
+  view: "home",
+  level: LV[store.get("level")] ? store.get("level") : LEVELS[0].id,
+  res: { lv: "all", ty: "all", q: "" },
+  exTrack: "2svt",
+  classLv: LV[store.get("classLv")] ? store.get("classLv") : "all",
+  lex: { g: "all", q: "" },
+  avg: [{ n: "", c: "1" }, { n: "", c: "1" }, { n: "", c: "1" }],
+  need: { notes: "", target: "" },
+  settled: false,
+  demoHidden: false
+};
+const L = () => UI[state.lang];
+const OTHER = () => (state.lang === "ar" ? "fr" : "ar");
+const t = v => v == null ? "" : (typeof v === "object" ? (v[state.lang] ?? v.ar ?? v.fr ?? "") : String(v));
+const tAlt = v => (v && typeof v === "object") ? (v[OTHER()] ?? "") : "";
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const T = v => esc(t(v));
+const oAttr = () => `lang="${OTHER()}" dir="${OTHER() === "ar" ? "rtl" : "ltr"}"`;
+const altSpan = (v, cls = "alt") => { const s = tAlt(v); return s ? `<span class="${cls}" ${oAttr()}>${esc(s)}</span>` : ""; };
+const toArr = v => Array.isArray(v) ? v : [v];
+const lvMatch = (lv, f) => f === "all" || toArr(lv ?? "all").includes("all") || toArr(lv).includes(f);
+const safeUrl = u => {
+  const s = String(u ?? "").trim();
+  if (!s) return "";
+  if (/^[a-z][a-z0-9+.\-]*:/i.test(s) && !/^(https?|mailto):/i.test(s)) return "";
+  return s;
+};
+const norm = s => String(s ?? "").toLowerCase().normalize("NFD")
+  .replace(/[\u0300-\u036f\u064B-\u065F\u0670\u0640]/g, "")
+  .replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه").replace(/[’']/g, "'").trim();
+const num = s => { const x = parseFloat(String(s ?? "").replace(",", ".").trim()); return Number.isFinite(x) ? x : NaN; };
+const fmtNum = x => String(Math.round(x * 100) / 100).replace(".", ",");
+
+const MONTHS = {
+  ar: ["يناير", "فبراير", "مارس", "أبريل", "ماي", "يونيو", "يوليوز", "غشت", "شتنبر", "أكتوبر", "نونبر", "دجنبر"],
+  fr: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+};
+const MONTHS_FR_SHORT = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+const DAYS = {
+  ar: ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"],
+  fr: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
+};
+const parseD = s => { const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(String(s ?? "").trim()); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+const fmtD = s => { const d = parseD(s); return d ? `${d.getDate()} ${MONTHS[state.lang][d.getMonth()]} ${d.getFullYear()}` : String(s ?? ""); };
+const today0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+const daysUntil = s => { const d = parseD(s); return d ? Math.round((d - today0()) / 864e5) : NaN; };
+const countdown = n => n === 0 ? L().today : n === 1 ? L().tomorrow : L().inDays(n);
+
+/* ---------- motifs lithologiques (SVG) ---------- */
+const INK = "#1b2a2a";
+const PAT = {
+  limestone: { w: 24, h: 12, d: `<path d="M0 .5H24M0 6.5H24M6 .5V6.5M18 6.5V12" stroke="${INK}" stroke-opacity=".5" fill="none"/>` },
+  marl: { w: 24, h: 10, d: `<path d="M1 2.5H9M13 2.5H21M7 7.5H15M19 7.5H24M0 7.5H3" stroke="${INK}" stroke-opacity=".5" stroke-linecap="round" fill="none"/>` },
+  sandstone: { w: 10, h: 10, d: `<g fill="${INK}" fill-opacity=".55"><circle cx="2.5" cy="2.5" r="1"/><circle cx="7.5" cy="7.5" r="1"/></g>` },
+  conglomerate: { w: 28, h: 20, d: `<g fill="none" stroke="${INK}" stroke-opacity=".5"><circle cx="7" cy="6" r="3.2"/><ellipse cx="20" cy="14" rx="4.2" ry="3"/></g><g fill="${INK}" fill-opacity=".5"><circle cx="17" cy="4" r="1"/><circle cx="5" cy="16" r="1"/><circle cx="25" cy="7" r=".8"/></g>` },
+  granite: { w: 16, h: 16, d: `<path d="M2 4H6M4 2V6M10 12H14M12 10V14" stroke="${INK}" stroke-opacity=".55" fill="none"/>` }
+};
+const PATCACHE = {};
+const patVars = name => PATCACHE[name] || (PATCACHE[name] = (() => {
+  const p = PAT[name];
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${p.w}" height="${p.h}" viewBox="0 0 ${p.w} ${p.h}">${p.d}</svg>`;
+  return `--pat:url('data:image/svg+xml,${encodeURIComponent(svg)}');--pw:${p.w}px;--ph:${p.h}px;`;
+})());
+const fillVars = id => `--fill:var(--lv-${id});${patVars(LV[id].pat)}`;
+const sw = (id, label) => LV[id] ? `<i class="sw" style="${fillVars(id)}"${label ? ` title="${esc(label)}" role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"'}></i>` : "";
+const lvTag = (lv, suffix = "") => {
+  const ids = toArr(lv ?? "all").filter(x => LV[x]);
+  if (!ids.length || toArr(lv).includes("all")) return `<span class="lv">${esc(L().allLevels)}</span>`;
+  return ids.map(x => `<span class="lv">${sw(x)}${T(LV[x].short)}${suffix ? " " + esc(suffix) : ""}</span>`).join("");
+};
+const chapterIds = id => PROGRAM[id].flatMap(u => u.ch);
+const chT = cid => CH[cid] ? CH[cid][state.lang === "ar" ? 0 : 1] : cid;
+const chA = cid => CH[cid] ? CH[cid][state.lang === "ar" ? 1 : 0] : "";
+const levelsOf = cid => LEVELS.filter(l => chapterIds(l.id).includes(cid)).map(l => l.id);
+
+/* ---------- icônes ---------- */
+const ICON = {
+  sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
+  ext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>'
+};
+function ammonitePaths() {
+  let d = "M24 24", r = 2, dir = 1;
+  for (let i = 0; i < 7; i++) { d += ` a${r} ${r} 0 0 1 ${dir * 2 * r} 0`; r += 2; dir = -dir; }
+  const rib = (cx, r1, r2, a) => { const k = a * Math.PI / 180, c = Math.cos(k), s = Math.sin(k); return `M${(cx + r1 * c).toFixed(2)} ${(24 + r1 * s).toFixed(2)}L${(cx + r2 * c).toFixed(2)} ${(24 + r2 * s).toFixed(2)}`; };
+  let ribs = "";
+  for (let a = 196; a <= 344; a += 16) ribs += rib(26, 10.8, 13.2, a);
+  for (let a = 20; a <= 160; a += 20) ribs += rib(24, 8.8, 11.2, a);
+  return { d, ribs };
+}
+const AMM = ammonitePaths();
+const ammonite = () => `<svg viewBox="8 7 34 32" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="${AMM.d}" stroke-width="2"/><path d="${AMM.ribs}" stroke-width="1.1"/></svg>`;
+function grassSvg() {
+  let d = "";
+  for (let i = 0; i < 46; i++) {
+    const x = 4 + i * 8.6 + ((i * 37) % 5) - 2, h = 7 + ((i * 53) % 8), lean = ((i * 29) % 7) - 3;
+    d += `M${x.toFixed(1)} 18Q${(x + lean * .4).toFixed(1)} ${(18 - h * .6).toFixed(1)} ${(x + lean).toFixed(1)} ${(18 - h).toFixed(1)}`;
+  }
+  return `<svg class="grass" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+}
+
+/* ============ الواجهة المشتركة | Cadre commun ============ */
+const VIEWS = ["home", "cours", "ressources", "classe", "methode", "lexique", "outils"];
+const mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : !!(mq && mq.matches);
+function updateThemeBtn() {
+  const b = $("themeBtn"), d = isDark();
+  b.innerHTML = d ? ICON.sun : ICON.moon;
+  b.setAttribute("aria-label", d ? L().themeLight : L().themeDark);
+  b.title = b.getAttribute("aria-label");
+}
+function renderChrome() {
+  const l = L(), S = SITE;
+  root.lang = state.lang; root.dir = state.lang === "ar" ? "rtl" : "ltr";
+  $("skip").textContent = l.skip;
+  $("brandT").textContent = l.brand;
+  $("brandS").textContent = t(S.teacher);
+  $("brandIcon").innerHTML = ammonite();
+  const lb = $("langBtn");
+  lb.textContent = l.langBtn; lb.lang = OTHER(); lb.setAttribute("aria-label", l.langAria); lb.title = l.langAria;
+  updateThemeBtn();
+  const nav = $("nav");
+  nav.setAttribute("aria-label", l.navAria);
+  nav.innerHTML = VIEWS.map(v => `<a href="#${v}"${v === state.view ? ' aria-current="page"' : ""}>${esc(l.nav[v])}</a>`).join("");
+  const demo = $("demo");
+  if (S.demo && !state.demoHidden) {
+    const txt = esc(l.demo).replace("SITE", '<b dir="ltr">SITE</b>').replace("demo: false", '<b dir="ltr">demo: false</b>');
+    demo.innerHTML = `<div class="wrap"><p>${txt}</p><button type="button" class="iconbtn sm" data-act="demo-x" aria-label="${esc(l.demoClose)}" title="${esc(l.demoClose)}">${ICON.x}</button></div>`;
+    demo.hidden = false;
+  } else { demo.hidden = true; demo.innerHTML = ""; }
+  const who = [t(S.teacher), t(S.school), t(S.city)].filter(Boolean).join(l.sep);
+  const mail = safeUrl(S.email ? "mailto:" + S.email : "");
+  $("foot").innerHTML = `<span>${esc(who)}</span><span class="grp">${S.updated ? `<span>${esc(l.updated)} ${esc(fmtD(S.updated))}</span>` : ""}${mail ? `<span>${esc(l.contact)}: <a href="${esc(mail)}" dir="ltr">${esc(S.email)}</a></span>` : ""}</span>`;
+  doc.title = state.view === "home" ? `${l.brand} | ${t(S.teacher)}` : `${l.nav[state.view]} | ${l.brand}`;
+}
+
+/* ============ الرئيسية | Accueil ============ */
+function annItem(a) {
+  const url = safeUrl(a.url);
+  return `<li><time datetime="${esc(a.date ?? "")}">${esc(fmtD(a.date))}</time><div><h3>${T(a.title)}</h3>${a.text ? `<p>${T(a.text)}</p>` : ""}${url ? `<a class="more" href="${esc(url)}" target="_blank" rel="noopener">${esc(L().open)}</a>` : ""}<div class="tags">${lvTag(a.level)}</div></div></li>`;
+}
+function upcoming(f = "all") {
+  return (SITE.events || []).filter(e => daysUntil(e.date) >= 0 && lvMatch(e.level, f)).sort((a, b) => daysUntil(a.date) - daysUntil(b.date));
+}
+function evItem(e) {
+  const d = parseD(e.date), n = daysUntil(e.date);
+  const mon = d ? (state.lang === "ar" ? MONTHS.ar[d.getMonth()] : MONTHS_FR_SHORT[d.getMonth()]) : "";
+  return `<li><div class="d"><b>${d ? d.getDate() : ""}</b><span>${esc(mon)}</span></div><div><h3>${T(e.title)}</h3><div class="tags">${lvTag(e.level)}</div></div><span class="cd${n <= 1 ? " hot" : ""}">${esc(countdown(n))}</span></li>`;
+}
+function labBlock() {
+  const l = L(), url = safeUrl(SITE.labUrl);
+  return `<section class="sec lab"><h2 class="sec-h">${esc(l.lab)}${lvTag("1bac")}</h2><p>${esc(l.labDesc)}</p>${url
+    ? `<a class="btn" href="${esc(url)}" target="_blank" rel="noopener">${esc(l.labOpen)}${ICON.ext}</a>`
+    : `<span class="btn" aria-disabled="true">${esc(l.labMissing)}</span>`}</section>`;
+}
+function factBlock() {
+  const doy = Math.floor((today0() - new Date(today0().getFullYear(), 0, 0)) / 864e5);
+  const f = FACTS[doy % FACTS.length];
+  return `<section class="sec"><h2 class="sec-h">${esc(L().fact)}</h2><div class="fact-b">${ammonite()}<p>${T(f)}${altSpan(f, "o")}</p></div></section>`;
+}
+function vHome() {
+  const l = L(), S = SITE;
+  const years = [...new Set(LEVELS.map(x => x.year))].sort((a, b) => b - a);
+  const n = years.length;
+  const rows = years.map((y, i) => {
+    const lv = LEVELS.filter(x => x.year === y);
+    const beds = lv.map(x => `<a class="bed" href="#cours/${x.id}" style="${fillVars(x.id)}" title="${esc(l.layerOf(t(x.litho)))}"><span class="plate"><b>${T(x.track)}</b><small>${esc(l.chapters(chapterIds(x.id).length))}</small></span></a>`).join("");
+    return `<div class="row" style="--d:${(0.15 + (n - 1 - i) * 0.2).toFixed(2)}s"><span class="age">${T(lv[0].stage)}</span><div class="beds">${beds}</div></div>`;
+  }).join("");
+  const log = `<nav class="log${state.settled ? "" : " settle"}" aria-label="${esc(l.logAria)}">
+      <div class="row soil" style="--d:${(0.15 + n * 0.2).toFixed(2)}s"><span></span><div class="soilband">${grassSvg()}</div></div>
+      ${rows}
+      <div class="row socle" style="--d:0s"><span class="age">${esc(l.college)}</span><div class="beds" style="--fill:var(--socle);${patVars("granite")}"></div></div>
+      <p class="log-cap">${esc(l.logCaption)}</p>
+    </nav>`;
+  state.settled = true;
+  const anns = (S.announcements || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 5);
+  const evs = upcoming().slice(0, 5);
+  return `
+  <div class="lockup"><span>${esc([t(S.school), t(S.city)].filter(Boolean).join(l.sep))}</span><span ${oAttr()}>${esc([tAlt(S.school), tAlt(S.city)].filter(Boolean).join(UI[OTHER()].sep))}</span></div>
+  <section class="hero">
+    <div>
+      <h1>${esc(l.heroTitle)}</h1>
+      <p class="alt-title" ${oAttr()}>${esc(l.heroAlt)}</p>
+      <div class="who"><b>${T(S.teacher)}</b>${S.role ? `<span>${T(S.role)}</span>` : ""}<span>${esc(l.season)} ${S.year ? `<bdi dir="ltr">${esc(S.year)}</bdi>` : ""}</span></div>
+    </div>
+    ${log}
+  </section>
+  <div class="home-grid">
+    <section class="sec"><h2 class="sec-h">${esc(l.ann)}</h2>${anns.length ? `<ul class="ann">${anns.map(annItem).join("")}</ul>` : `<p class="empty">${esc(l.annEmpty)}</p>`}</section>
+    <div>
+      <section class="sec"><h2 class="sec-h">${esc(l.ev)}</h2>${evs.length ? `<ul class="ev">${evs.map(evItem).join("")}</ul>` : `<p class="empty">${esc(l.evEmpty)}</p>`}</section>
+      ${labBlock()}
+      ${factBlock()}
+    </div>
+  </div>`;
+}
+
+/* ============ الدروس | Cours ============ */
+function resLinks(cid) {
+  const l = L(), r = (SITE.links || {})[cid] || {};
+  const a = ["cours", "resume", "exercices", "video"].map(k => [k, safeUrl(r[k])]).filter(([, u]) => u)
+    .map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(l.resKinds[k])}</a>`);
+  return `<div class="res">${a.length ? a.join("") : `<span class="soon">${esc(l.resSoon)}</span>`}</div>`;
+}
+function vCours() {
+  const l = L(), id = state.level, lv = LV[id];
+  const ids = chapterIds(id), cur = (SITE.current || {})[id], ci = ids.indexOf(cur);
+  let k = 0;
+  const units = PROGRAM[id].map((u, ui) => `
+    <section class="unit">
+      <div class="unit-h"><span class="k">${esc(l.unit)} ${ui + 1}</span><h3>${T(u)}</h3>${altSpan(u)}</div>
+      <ol class="chaps">${u.ch.map(cid => {
+        k++;
+        const now = cid === cur;
+        return `<li${now ? ' class="now" aria-current="step"' : ""}><span class="n">${k}</span><div>${now ? `<span class="now-tag">${ammonite()}${esc(l.here)}</span>` : ""}<span class="t">${esc(chT(cid))}</span><span class="alt" ${oAttr()}>${esc(chA(cid))}</span>${resLinks(cid)}</div></li>`;
+      }).join("")}</ol>
+    </section>`).join("");
+  const prog = ci >= 0
+    ? `<div class="prog-bar" role="progressbar" aria-valuemin="1" aria-valuemax="${ids.length}" aria-valuenow="${ci + 1}" aria-label="${esc(l.progress(ci + 1, ids.length).replace(/<[^>]+>/g, ""))}"><i style="width:${((ci + 1) / ids.length * 100).toFixed(1)}%"></i></div><span>${l.progress(ci + 1, ids.length)}</span>`
+    : `<span>${esc(l.noCurrent)}</span>`;
+  return `
+  <header class="page-h"><h1>${esc(l.coursH)}</h1><p>${esc(l.coursLead)}</p></header>
+  <div class="lvbar" role="group" aria-label="${esc(l.coursH)}">${LEVELS.map(x => `<button type="button" data-act="level" data-v="${x.id}" aria-pressed="${x.id === id}">${sw(x.id)}${T(x.short)}</button>`).join("")}</div>
+  <div style="${fillVars(id)}">
+    <div class="lvhead"><h2>${T(lv.name)}</h2>${altSpan(lv.name)}<div class="prog">${prog}</div></div>
+    ${units}
+  </div>`;
+}
+
+/* ============ الموارد | Ressources ============ */
+function allRes() {
+  const out = [];
+  (SITE.resources || []).forEach(r => out.push({ title: r.title, levels: toArr(r.level ?? "all"), type: r.type || "doc", url: safeUrl(r.url) }));
+  Object.entries(SITE.links || {}).forEach(([cid, r]) => {
+    if (!CH[cid] || !r) return;
+    const lv = levelsOf(cid);
+    ["cours", "resume", "exercices", "video"].forEach(k => { const u = safeUrl(r[k]); if (u) out.push({ title: { ar: CH[cid][0], fr: CH[cid][1] }, levels: lv, type: k, url: u }); });
+  });
+  return out;
+}
+function ressListHtml() {
+  const l = L(), q = norm(state.res.q);
+  const list = allRes().filter(r => lvMatch(r.levels, state.res.lv) && (state.res.ty === "all" || r.type === state.res.ty)
+    && (!q || norm(t(r.title) + " " + tAlt(r.title)).includes(q)));
+  const items = list.map(r => `<li><div><div class="meta"><span>${esc(l.types[r.type] || r.type)}</span>${lvTag(r.levels)}</div><span class="t">${T(r.title)}</span></div>${r.url
+    ? `<a class="go" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(l.open)}</a>`
+    : `<span class="na">${esc(l.notYet)}</span>`}</li>`).join("");
+  return `<p class="count" aria-live="polite">${esc(l.count(list.length))}</p>${list.length ? `<ul class="rlist">${items}</ul>` : `<p class="empty">${esc(l.noRes)}</p>`}`;
+}
+function exLink(v, label) {
+  if (!v) return "";
+  const base = (SITE.exams && SITE.exams.base) || "";
+  const url = safeUrl(typeof v === "string" && /^https?:/i.test(v) ? v : base + v);
+  return url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(label)}</a>` : "";
+}
+function examsHtml() {
+  const l = L(), f = state.res.lv;
+  if (f === "tclsh" || f === "1bac") return `<p class="empty">${esc(l.exNone)}</p>`;
+  const track = (f === "2svt" || f === "2pc") ? f : state.exTrack;
+  const tabs = f === "all" ? `<div class="chips" role="group" aria-label="${esc(l.exH)}">${["2svt", "2pc"].map(id => `<button type="button" data-act="extrack" data-v="${id}" aria-pressed="${id === track}">${sw(id)}${T(LV[id].short)}</button>`).join("")}</div>` : "";
+  const rows = ((SITE.exams || {})[track] || []).map(([y, ns, nc, rs, rc]) =>
+    `<tr><th scope="row">${esc(y)}</th><td>${exLink(ns, l.exS)}${exLink(nc, l.exC)}</td><td>${exLink(rs, l.exS)}${exLink(rc, l.exC)}</td></tr>`).join("");
+  return `${tabs}<div class="tablewrap"><table class="exams"><thead><tr><th scope="col">${esc(l.exYear)}</th><th scope="col">${esc(l.exN)}</th><th scope="col">${esc(l.exR)}</th></tr></thead><tbody>${rows}</tbody></table></div><p class="note">${esc(l.exNote)}</p>`;
+}
+function vRess() {
+  const l = L(), types = [...new Set(allRes().map(r => r.type))];
+  if (state.res.ty !== "all" && !types.includes(state.res.ty)) state.res.ty = "all";
+  const lvChips = [["all", esc(l.all)], ...LEVELS.map(x => [x.id, sw(x.id) + T(x.short)])]
+    .map(([v, h]) => `<button type="button" data-act="rlv" data-v="${v}" aria-pressed="${state.res.lv === v}">${h}</button>`).join("");
+  const tyChips = types.length > 1 ? ["all", ...types]
+    .map(v => `<button type="button" data-act="rty" data-v="${v}" aria-pressed="${state.res.ty === v}">${esc(v === "all" ? l.all : (l.types[v] || v))}</button>`).join("") : "";
+  return `
+  <header class="page-h"><h1>${esc(l.ressH)}</h1><p>${esc(l.ressLead)}</p></header>
+  <div class="filters">
+    <div class="chips" role="group" aria-label="${esc(l.ressH)}">${lvChips}</div>
+    ${tyChips ? `<div class="chips" role="group">${tyChips}</div>` : ""}
+    <label class="field">${ICON.search}<input id="rq" type="search" value="${esc(state.res.q)}" placeholder="${esc(l.search)}" aria-label="${esc(l.search)}" autocomplete="off"></label>
+  </div>
+  <div id="rlist">${ressListHtml()}</div>
+  <section class="sec"><h2 class="sec-h">${esc(l.exH)}</h2><p class="lead">${esc(l.exLead)}</p>${examsHtml()}</section>`;
+}
+
+/* ============ القسم | La classe ============ */
+function logItem(x) {
+  const l = L();
+  return `<li><time datetime="${esc(x.date ?? "")}">${esc(fmtD(x.date))}</time><div><div class="tags">${lvTag(x.level)}</div><dl>${x.done ? `<dt>${esc(l.done)}</dt><dd>${T(x.done)}</dd>` : ""}${x.todo ? `<dt>${esc(l.todo)}</dt><dd>${T(x.todo)}</dd>` : ""}</dl></div></li>`;
+}
+function vClasse() {
+  const l = L(), f = state.classLv, td = new Date().getDay();
+  const chips = [["all", esc(l.all)], ...LEVELS.map(x => [x.id, sw(x.id) + T(x.short)])]
+    .map(([v, h]) => `<button type="button" data-act="clv" data-v="${v}" aria-pressed="${f === v}">${h}</button>`).join("");
+  const sessions = (SITE.timetable || []).filter(s => lvMatch(s.level, f));
+  const days = [1, 2, 3, 4, 5, 6].map(d => {
+    const ss = sessions.filter(s => +s.day === d).sort((a, b) => String(a.start).localeCompare(String(b.start)));
+    return `<div class="tt-day${d === td ? " today" : ""}"><div class="dn">${esc(DAYS[state.lang][d])}${d === td ? `<small>${esc(l.todayTag)}</small>` : ""}</div><div class="sess">${ss.length
+      ? ss.map(s => `<div class="ses"><time dir="ltr">${esc(s.start ?? "")}–${esc(s.end ?? "")}</time>${lvTag(s.level, s.cls ?? "")}${s.room ? `<span class="room">${esc(l.room)} ${esc(s.room)}</span>` : ""}</div>`).join("")
+      : `<span class="none">${esc(l.free)}</span>`}</div></div>`;
+  }).join("");
+  const evs = upcoming(f);
+  const logs = (SITE.log || []).filter(x => lvMatch(x.level, f)).sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 12);
+  const list = arr => `<ul class="rules">${(arr || []).map(r => `<li>${T(r)}</li>`).join("")}</ul>`;
+  return `
+  <header class="page-h"><h1>${esc(l.classeH)}</h1><p>${esc(l.classeLead)}</p></header>
+  <div class="chips" role="group" aria-label="${esc(l.classeH)}">${chips}</div>
+  <section class="sec"><h2 class="sec-h">${esc(l.tt)}</h2><div class="tt">${days}</div></section>
+  <div class="two">
+    <section class="sec"><h2 class="sec-h">${esc(l.ev)}</h2>${evs.length ? `<ul class="ev">${evs.map(evItem).join("")}</ul>` : `<p class="empty">${esc(l.evEmpty)}</p>`}</section>
+    <section class="sec"><h2 class="sec-h">${esc(l.logH)}</h2>${logs.length ? `<ul class="logs">${logs.map(logItem).join("")}</ul>` : `<p class="empty">${esc(l.logEmpty)}</p>`}</section>
+  </div>
+  <div class="two">
+    <section class="sec"><h2 class="sec-h">${esc(l.charter)}</h2>${list(SITE.charter)}</section>
+    <section class="sec"><h2 class="sec-h">${esc(l.evalH)}</h2>${list(SITE.evaluation)}</section>
+  </div>`;
+}
+
+/* ============ المنهجية | Méthodologie ============ */
+function vMethode() {
+  const l = L();
+  return `
+  <header class="page-h"><h1>${esc(l.methodeH)}</h1><p>${esc(l.methodeLead)}</p></header>
+  <section class="sec"><h2 class="sec-h">${esc(l.structH)}</h2>
+    <div class="split"><div class="p1"><b>5</b><span>${esc(l.pts5)}</span></div><div class="p2"><b>15</b><span>${esc(l.pts15)}</span></div></div>
+    <div class="parts">
+      <div><h3>${esc(l.p1)}</h3><p>${esc(l.p1d)}</p></div>
+      <div><h3>${esc(l.p2)}</h3><p>${esc(l.p2d)}</p></div>
+    </div>
+  </section>
+  <section class="sec"><h2 class="sec-h">${esc(l.verbsH)}</h2><p class="lead">${esc(l.verbsLead)}</p>
+    <div class="verbs">${VERBS.map(v => `<div class="verb"><div><b>${T(v.v)}</b>${altSpan(v.v, "o")}</div><p>${T(v.d)}${altSpan(v.d, "o")}</p></div>`).join("")}</div>
+  </section>
+  <section class="sec"><h2 class="sec-h">${esc(l.stepsH)}</h2>
+    <ol class="steps">${STEPS.map(s => `<li><span>${T(s)}${altSpan(s, "o")}</span></li>`).join("")}</ol>
+  </section>`;
+}
+
+/* ============ المعجم | Lexique ============ */
+function lexListHtml() {
+  const l = L(), q = norm(state.lex.q), first = state.lang === "ar" ? 0 : 1;
+  const list = GLOSSARY.filter(([ar, fr, g]) => (state.lex.g === "all" || g === state.lex.g) && (!q || norm(ar).includes(q) || norm(fr).includes(q)))
+    .sort((a, b) => a[first].localeCompare(b[first], state.lang));
+  const rows = list.map(e => `<li><span class="a">${esc(e[first])}</span><span class="f" ${oAttr()}>${esc(e[1 - first])}</span>${sw(GROUP_LV[e[2]], l.groups[e[2]])}</li>`).join("");
+  return `<p class="count" aria-live="polite">${esc(l.terms(list.length))}</p>${list.length ? `<ul class="lex">${rows}</ul>` : `<p class="empty">${esc(l.lexEmpty)}</p>`}`;
+}
+function vLex() {
+  const l = L();
+  const chips = ["all", "tc", "1bac", "2bac"].map(g => `<button type="button" data-act="lg" data-v="${g}" aria-pressed="${state.lex.g === g}">${g !== "all" ? sw(GROUP_LV[g]) : ""}${esc(l.groups[g])}</button>`).join("");
+  return `
+  <header class="page-h"><h1>${esc(l.lexH)}</h1><p>${esc(l.lexLead)}</p></header>
+  <div class="filters">
+    <div class="chips" role="group" aria-label="${esc(l.lexH)}">${chips}</div>
+    <label class="field">${ICON.search}<input id="lq" type="search" value="${esc(state.lex.q)}" placeholder="${esc(l.lexSearch)}" aria-label="${esc(l.lexSearch)}" autocomplete="off"></label>
+  </div>
+  <div id="lexlist">${lexListHtml()}</div>`;
+}
+
+/* ============ أدوات | Outils ============ */
+function avgResult() {
+  const l = L();
+  let sumW = 0, sumC = 0;
+  state.avg.forEach(r => {
+    const n = num(r.n), c = num(r.c === "" ? "1" : r.c);
+    if (Number.isFinite(n) && n >= 0 && n <= 20 && Number.isFinite(c) && c > 0) { sumW += n * c; sumC += c; }
+  });
+  return sumC ? `<span>${esc(l.avg)}</span><b dir="ltr">${fmtNum(sumW / sumC)}</b><span>/ 20</span>` : `<span>${esc(l.avgNone)}</span>`;
+}
+function avgHtml() {
+  const l = L();
+  const rows = state.avg.map((r, i) => `<div class="row"><input data-i="${i}" data-k="n" inputmode="decimal" dir="ltr" value="${esc(r.n)}" aria-label="${esc(l.note)} ${i + 1}" placeholder="–" autocomplete="off"><input data-i="${i}" data-k="c" inputmode="decimal" dir="ltr" value="${esc(r.c)}" aria-label="${esc(l.coef)} ${i + 1}" autocomplete="off"><button type="button" class="iconbtn" data-act="delrow" data-v="${i}" aria-label="${esc(l.delRow)}" title="${esc(l.delRow)}"${state.avg.length <= 1 ? " disabled" : ""}>${ICON.x}</button></div>`).join("");
+  return `<div class="calc"><div class="hdr"><span>${esc(l.note)}</span><span>${esc(l.coef)}</span><span></span></div>${rows}<button type="button" class="btn line" data-act="addrow">${ICON.plus}${esc(l.addRow)}</button><div class="result" id="avgRes" aria-live="polite">${avgResult()}</div></div>`;
+}
+function needMsg() {
+  const l = L();
+  const notes = String(state.need.notes).split(/[\s،;+\/]+/).map(num).filter(x => Number.isFinite(x) && x >= 0 && x <= 20);
+  const target = num(state.need.target);
+  if (!notes.length || !Number.isFinite(target) || target < 0 || target > 20) return esc(l.needEmpty);
+  const need = target * (notes.length + 1) - notes.reduce((a, b) => a + b, 0);
+  if (need <= 0) return esc(l.needOk);
+  if (need > 20) return esc(l.needHigh(fmtNum(need)));
+  return l.needMsg(`<span dir="ltr">${fmtNum(Math.ceil(need * 4 - 1e-9) / 4)}</span>`);
+}
+function vOutils() {
+  const l = L();
+  return `
+  <header class="page-h"><h1>${esc(l.outilsH)}</h1><p>${esc(l.outilsLead)}</p></header>
+  <div class="two">
+    <section class="sec"><h2 class="sec-h">${esc(l.avgH)}</h2><p class="lead">${esc(l.avgLead)}</p><div id="avg">${avgHtml()}</div></section>
+    <section class="sec"><h2 class="sec-h">${esc(l.needH)}</h2><p class="lead">${esc(l.needLead)}</p>
+      <div class="need">
+        <label>${esc(l.needNotes)}<input id="nNotes" inputmode="decimal" dir="ltr" value="${esc(state.need.notes)}" placeholder="12 14,5 9" autocomplete="off"></label>
+        <label>${esc(l.needTarget)}<input id="nTarget" inputmode="decimal" dir="ltr" value="${esc(state.need.target)}" placeholder="14" autocomplete="off"></label>
+        <p class="msg" id="nMsg" aria-live="polite">${needMsg()}</p>
+      </div>
+    </section>
+  </div>
+  ${labBlock()}`;
+}
+
+/* ============ التوجيه والأحداث | Navigation et événements ============ */
+const RENDER = { home: vHome, cours: vCours, ressources: vRess, classe: vClasse, methode: vMethode, lexique: vLex, outils: vOutils };
+function render() {
+  renderChrome();
+  main.innerHTML = RENDER[state.view]();
+  const nav = $("nav"), cur = nav.querySelector('[aria-current="page"]');
+  if (cur && nav.scrollWidth > nav.clientWidth + 2) {
+    const nr = nav.getBoundingClientRect(), cr = cur.getBoundingClientRect();
+    if (cr.left < nr.left || cr.right > nr.right) nav.scrollLeft += (cr.left + cr.width / 2) - (nr.left + nr.width / 2);
+  }
+}
+function route() {
+  const [v, p] = decodeURIComponent(location.hash.replace(/^#\/?/, "")).split("/");
+  state.view = VIEWS.includes(v) ? v : "home";
+  if (state.view === "cours" && LV[p]) { state.level = p; store.set("level", p); }
+  render();
+}
+window.addEventListener("hashchange", () => {
+  route();
+  window.scrollTo(0, 0);
+  main.focus({ preventScroll: true });
+});
+doc.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  const act = b.dataset.act, v = b.dataset.v;
+  const refocus = () => { const el = doc.querySelector(`[data-act="${act}"][data-v="${v}"]`); if (el) el.focus({ preventScroll: true }); };
+  switch (act) {
+    case "level":
+      if (LV[v]) { state.level = v; store.set("level", v); if (location.hash !== "#cours/" + v) location.hash = "#cours/" + v; else { render(); refocus(); } }
+      break;
+    case "rlv": state.res.lv = v; render(); refocus(); break;
+    case "rty": state.res.ty = v; render(); refocus(); break;
+    case "extrack": state.exTrack = v; render(); refocus(); break;
+    case "clv": state.classLv = v; store.set("classLv", v); render(); refocus(); break;
+    case "lg": state.lex.g = v; render(); refocus(); break;
+    case "addrow": {
+      state.avg.push({ n: "", c: "1" });
+      $("avg").innerHTML = avgHtml();
+      const ins = $("avg").querySelectorAll('input[data-k="n"]');
+      if (ins.length) ins[ins.length - 1].focus();
+      break;
+    }
+    case "delrow":
+      if (state.avg.length > 1) { state.avg.splice(+v, 1); $("avg").innerHTML = avgHtml(); }
+      break;
+    case "demo-x": state.demoHidden = true; renderChrome(); break;
+  }
+});
+main.addEventListener("input", e => {
+  const el = e.target;
+  if (el.id === "rq") { state.res.q = el.value; $("rlist").innerHTML = ressListHtml(); }
+  else if (el.id === "lq") { state.lex.q = el.value; $("lexlist").innerHTML = lexListHtml(); }
+  else if (el.dataset.k && el.closest(".calc")) { const r = state.avg[+el.dataset.i]; if (r) { r[el.dataset.k] = el.value; $("avgRes").innerHTML = avgResult(); } }
+  else if (el.id === "nNotes" || el.id === "nTarget") { state.need[el.id === "nNotes" ? "notes" : "target"] = el.value; $("nMsg").innerHTML = needMsg(); }
+});
+$("skip").addEventListener("click", e => { e.preventDefault(); main.focus(); });
+$("langBtn").addEventListener("click", () => { state.lang = OTHER(); store.set("lang", state.lang); render(); });
+$("themeBtn").addEventListener("click", () => { const next = isDark() ? "light" : "dark"; root.dataset.theme = next; store.set("theme", next); updateThemeBtn(); });
+if (mq) { if (mq.addEventListener) mq.addEventListener("change", updateThemeBtn); else if (mq.addListener) mq.addListener(updateThemeBtn); }
+
+const fav = $("fav");
+if (fav) fav.href = "data:image/svg+xml," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 7 34 32"><circle cx="25" cy="23" r="16" fill="#F3F5F2"/><g fill="none" stroke="#1C2A2A" stroke-linecap="round"><path d="${AMM.d}" stroke-width="2.2"/><path d="${AMM.ribs}" stroke-width="1.2"/></g></svg>`);
+
+route();
+})();
+</script>
+</body>
+</html>
